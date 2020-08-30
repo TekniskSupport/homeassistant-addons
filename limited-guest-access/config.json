@@ -1,0 +1,20 @@
+{
+  "name": "Limited guest access",
+  "version": "0.1.106",
+  "slug": "limited_guest_access",
+  "description": "Allow guests to access limited functions",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "before",
+  "boot": "auto",
+  "options": {
+    "external_url": "https://your-external-visitor-url.tld:port/"
+  },
+  "schema": {
+    "external_url": "str"
+  },
+  "ports": {
+    "8888/tcp": 8888,
+    "8899/tcp": 8899
+  },
+  "homeassistant_api": true
+}
