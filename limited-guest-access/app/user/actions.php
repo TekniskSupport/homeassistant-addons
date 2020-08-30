@@ -19,16 +19,15 @@ class Actions {
         }
 
         if (isset($_GET['action'])) {
-            $availableActions = $this->getAllActions();
+            $availableActions = $this->getFilteredActions();
             $actionData       = $availableActions->{$this->getAction()};
             if (!$actionData) {
                 throw new \Exception('unknown action');
             }
 
             $this
-                ->validateTime($actionData)
                 ->performAction($actionData)
-                ->invalidateAction($actionData)
+                ->invalidateAction($actionData, $this->getAction())
                 ->redirect('?performedAction='. urlencode($actionData->friendly_name));
         }
     }
@@ -39,20 +38,44 @@ class Actions {
         return $this->data;
     }
 
-    public function filterActions($actions)
+    public function getFilteredActions()
     {
+        $filteredActions = (object)[];
+        $allActions = $this->getAllActions();
+        foreach ($allActions as $id => $action) {
+            if ($this->validateTime($action)) {
+                $filteredActions->{$id} = $action;
+            }
+        }
 
-        return $actions;
+        return $filteredActions;
     }
 
     protected function validateTime($actionData)
     {
+        $now        = time();
+        $validFrom  = strtotime($actionData->valid_from);
+        $expiryTime = strtotime($actionData->expiry_time);
 
-        return $this;
+
+        if ($expiryTime && $expiryTime <= $now) {
+            return false;
+        }
+
+        if ($validFrom && $validFrom >= $now) {
+            return false;
+        }
+
+        return true;
     }
 
-    protected function invalidateAction($actionData)
+    protected function invalidateAction($actionData, $actionId)
     {
+        if ($actionData->one_time_use) {
+            $actions = (array)$this->getAllActions();
+            unset($actions[$actionId]);
+            file_put_contents(self::DATA_DIR . $this->getLink() . '.json', json_encode($actions));
+        }
 
         return $this;
     }

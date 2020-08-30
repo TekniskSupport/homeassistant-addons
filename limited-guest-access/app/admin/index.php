@@ -28,7 +28,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         }
 
         input, textarea {
-            width: 60%;
+            width: 70%;
             background:transparent;
             margin: 5px 0px;
             padding: 1%;
@@ -58,11 +58,15 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             transition-duration:0.5s;
         }
 
+        input.copylink {
+            line-height: 30px;
+        }
+
         .createNewLink {
             font-size: 22px;
             padding: .5rem 1rem;
             border: 1px solid #1a1a1a;
-            background-color: #2E86C1;
+            background-color: whitesmoke;
             min-width: 25%;
             border-radius: 3px;
             display: inline-block;
@@ -74,20 +78,48 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         a, a:link, a:visited, a:active {
             margin: .5rem;
             padding: .5rem 1rem;
+            position:relative;
             border: 1px solid #1a1a1a;
             border-radius: 3px;
             color: #1a1a1a;
             text-decoration: none;
         }
+        a:hover {
+            background-color: white;
+        }
 
+        .row:nth-child(odd) {
+            background-color: whitesmoke;
+        }
         .row {
-            display: flex;
+            padding-left: 2rem;
         }
 
         .column {
-            flex: 1;
-            border: 1px solid lightgrey;
             padding: 1rem 0;
+        }
+        @media only screen and (min-width: 800px) {
+            .row {
+                display: flex;
+            }
+
+            .column {
+                flex: 1;
+            }
+
+            a, a:link, a:visited, a:active {
+                bottom: -.8rem;
+            }
+        }
+
+        @media only screen and (max-width: 799px) {
+            .row {
+                display: block;
+            }
+
+            .column {
+                display: inline-block
+            }
         }
 
         ul {
@@ -106,6 +138,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             border: none;
             margin: 0;
             padding: 0 0;
+            position: initial;
         }
     </style>
     <script type="text/javascript">
@@ -146,19 +179,19 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
         >
             <label for="friendly_name">Friendly name:</label><br/>
             <input id="friendly_name" required name="friendly_name" type="text" />
-            <br/><br/>
+            <br/>
 
             <label for="service_call">Service call:</label><br/>
             <input id="service_call" required name="service_call" type="text" />
-            <br/><br/>
+            <br/>
 
             <label for="entity_id">EntityID:</label><br/>
             <input id="entity_id" name="entity_id" type="text" />
-            <br/><br/>
+            <br/>
 
             <label for="additional_data">Additional Data (in json format):</label><br/>
             <textarea rows="5" cols="50" id="additional_data" name="additional_data" type="text"></textarea>
-            <br/><br/>
+            <br/>
 
             <label for="valid_from_date">Valid from:</label><br/>
             <input id="valid_from_date"
@@ -176,7 +209,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
                    type="time"
             />
             <input name="valid_from" type="hidden" id="valid_from" />
-            <br/><br/>
+            <br/>
 
             <label for="expiry_time_date">Expiry time:</label><br/>
             <input id="expiry_time_date"
@@ -192,11 +225,11 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
                    onchange="validateDates();"
             />
             <input name="expiry_time" type="hidden" id="expiry_time" />
-            <br/><br/>
+            <br/>
 
             <label for="one_time_use">One time use?</label><br/>
             <input type="checkbox" value="1" name="one_time_use" id="one_time_use" />
-            <br/><br/>
+            <br/>
 
             <input type="submit" />
         </form>
@@ -209,7 +242,7 @@ foreach($actions->getAllLinks() as $link) :
 ?>
     <div class="row">
         <div class="column">
-            Link: <input id="copyLink<?=$link?>" type="text" value="<?= $actions->externalUrl ?><?= $link ?>/" />
+            Link: <input class="copylink" id="copyLink<?=$link?>" type="text" value="<?= $actions->externalUrl ?><?= $link ?>/" />
             <span class="copy" style="cursor:pointer;" onclick='(function() {
               var copyText = document.getElementById("copyLink<?=$link?>");
                 copyText.select();
@@ -230,8 +263,15 @@ foreach($actions->getAllLinks() as $link) :
             </a>
         </div>
         <div class="column">
+            <a href="?action=deleteLink&id=<?= $link ?>">
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
+                </svg>
+            </a>
+        </div>
+        <div class="column">
             <ul>
-            <?php
+                <?php
                 if (!is_null($data)) {
                     foreach($data as $action => $entry):?>
                         <li>
@@ -242,18 +282,11 @@ foreach($actions->getAllLinks() as $link) :
                             </a>
                             <?= $entry->friendly_name ?>
                         </li>
-                <?php
+                        <?php
                     endforeach;
                 }
-            ?>
+                ?>
             </ul>
-        </div>
-        <div class="column">
-            <a href="?action=deleteLink&id=<?= $link ?>">
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
-                </svg>
-            </a>
         </div>
     </div>
 <?php endforeach; ?>
