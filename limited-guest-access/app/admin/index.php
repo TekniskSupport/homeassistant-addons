@@ -165,6 +165,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
       }
 
       let serviceData = <?= $actions->getServiceData() ?>;
+      let states = <?= $actions->getStates() ?>;
       document.addEventListener('DOMContentLoaded', (event) => {
         serviceData.forEach(domain => {
             if (undefined !== domain.services) {
@@ -207,8 +208,32 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
                 }
               })
             }
-          })
-        })
+          });
+
+          let isReplaced = false;
+          states.forEach(state => {
+            let entity = state.entity_id.split('.');
+            if (service_call[0] == entity[0]) {
+              if (typeof document.querySelector("#dynamic_field_entity_id") !== undefined) {
+                if (!isReplaced) {
+                  let entities = document.querySelector("#dynamic_field_entity_id");
+                  let entitiesReplace = document.createElement('select');
+                  if (entities.name) entitiesReplace.name = entities.name;
+                  if (entities.id) entitiesReplace.id = entities.id;
+                  if (entities.className) entitiesReplace.className = entities.className;
+                  entities.parentNode.replaceChild(entitiesReplace, entities);
+                  isReplaced = true;
+                }
+
+                let option = document.createElement('option');
+                let newEntities = document.querySelector("#dynamic_field_entity_id");
+                option.value = state.entity_id;
+                option.text = option.value;
+                newEntities.appendChild(option);
+              }
+            }
+          });
+        });
       });
     </script>
 </head>

@@ -150,4 +150,15 @@ class Actions
 
         return curl_exec($ch);
     }
+    public function getStates()
+    {
+        $ch = curl_init(self::API_URL . 'states');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                           "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}"
+                       ]
+        );
+
+        return curl_exec($ch);
+    }
 }
