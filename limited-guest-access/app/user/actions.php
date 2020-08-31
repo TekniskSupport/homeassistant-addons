@@ -9,6 +9,7 @@ class Actions {
 
     public function __construct()
     {
+        date_default_timezone_set($_SERVER["TZ"]);
         if (!file_exists(self::DATA_DIR . $this->getLink() . '.json')) {
             http_response_code(401);
             throw new \Exception('Not allowed');
