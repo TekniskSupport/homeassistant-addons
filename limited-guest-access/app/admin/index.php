@@ -195,6 +195,8 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
 
             <label for="valid_from_date">Valid from:</label><br/>
             <input id="valid_from_date"
+                   placeholder="YYYY-MM-DD"
+                   class="dateinput"
                    name="valid_from_date"
                    type="date"
                    min="<?= date('Y-m-d',time())?>"
@@ -206,6 +208,8 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
             <input id="valid_from_time"
                    onchange="validateDates();"
                    name="valid_from_time"
+                   class="timeinput"
+                   placeholder="HH:MM"
                    type="time"
             />
             <input name="valid_from" type="hidden" id="valid_from" />
@@ -214,6 +218,8 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
             <label for="expiry_time_date">Expiry time:</label><br/>
             <input id="expiry_time_date"
                    name="expiry_time_date"
+                   class="dateinput"
+                   placeholder="YYYY-MM-DD"
                    type="date"
                    min="<?= date('Y-m-d',time())?>"
                    value="<?= date('Y-m-d',time())?>"
@@ -221,7 +227,9 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
             />
             <input id="expiry_time_time"
                    name="expiry_time_time"
+                   class="timeinput"
                    type="time"
+                   placeholder="HH:MM"
                    onchange="validateDates();"
             />
             <input name="expiry_time" type="hidden" id="expiry_time" />
