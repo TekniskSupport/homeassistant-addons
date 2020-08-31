@@ -4,6 +4,7 @@ namespace TekniskSupport\LimitedGuestAccess\Admin;
 
 class Actions
 {
+    const API_URL  = 'http://supervisor/core/api/';
     const DATA_DIR = '/data/links/';
     public $externalUrl;
     protected $allLinks = null;
@@ -68,16 +69,18 @@ class Actions
         if (!$link) {
             $link = [];
         }
-
-        $newData[uniqid()] = [
+        $id = uniqid();
+        $newData[$id] = [
             'friendly_name'   => $_POST['friendly_name'],
             'service_call'    => $_POST['service_call'],
-            'entity_id'       => $_POST['entity_id']          ?? '',
-            'additional_data' => $_POST['additional_data']    ?? '',
             'valid_from'      => $_POST['valid_from']         ?? 0,
             'expiry_time'     => $_POST['expiry_time']        ?? null,
             'one_time_use'    => (isset($_POST['one_time_use']))? 1: 0,
         ];
+
+        foreach ($_POST['dynamic_field'] as $key => $additionalField) {
+            $newData[$id][$key] = $additionalField;
+        }
 
         if (json_encode($newData)) {
             $json = json_encode(array_merge($link, $newData));
@@ -134,5 +137,17 @@ class Actions
         }
 
         return $hash;
+    }
+
+    public function getServiceData()
+    {
+        $ch = curl_init(self::API_URL . 'services');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                           "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}"
+                       ]
+        );
+
+        return curl_exec($ch);
     }
 }

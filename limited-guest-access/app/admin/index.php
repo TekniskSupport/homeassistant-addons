@@ -27,7 +27,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             margin-bottom: -7px;
         }
 
-        input, textarea {
+        input, textarea, select {
             width: 70%;
             background:transparent;
             margin: 5px 0px;
@@ -143,12 +143,12 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
     </style>
     <script type="text/javascript">
       function validateDates() {
-        var v  = document.querySelector('#valid_from');
-        var e  = document.querySelector('#expiry_time');
-        var vd = document.querySelector('#valid_from_date').value;
-        var vt = document.querySelector('#valid_from_time').value;
-        var ed = document.querySelector('#expiry_time_date').value;
-        var et = document.querySelector('#expiry_time_time').value;
+        let v  = document.querySelector('#valid_from');
+        let e  = document.querySelector('#expiry_time');
+        let vd = document.querySelector('#valid_from_date').value;
+        let vt = document.querySelector('#valid_from_time').value;
+        let ed = document.querySelector('#expiry_time_date').value;
+        let et = document.querySelector('#expiry_time_time').value;
 
         if (vd) {
           v.value = vd;
@@ -163,6 +163,53 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
           e.value = e.value + ' ' + et
         }
       }
+
+      let serviceData = <?= $actions->getServiceData() ?>;
+      document.addEventListener('DOMContentLoaded', (event) => {
+        serviceData.forEach(domain => {
+            if (undefined !== domain.services) {
+                Object.keys(domain.services).forEach(service => {
+                    let option = document.createElement('option');
+                    option.value = domain.domain + '.' + service;
+                    option.text  = option.value;
+                    document.querySelector('#service_call').appendChild(option);
+                })
+          }
+        });
+
+        let sc = document.querySelector('#service_call');
+        sc.addEventListener('change', (event) => {
+          let value = sc.options[sc.selectedIndex].value;
+          let service_call = value.split(".");
+          serviceData.forEach(domain => {
+            if (domain.domain == service_call[0]) {
+              Object.keys(domain.services).forEach(service => {
+                if (service == service_call[1]) {
+                  document.querySelector('#dynamic_fields').innerHTML = '';
+                  Object.keys(domain.services[service].fields).forEach(field => {
+
+                    let label = document.createElement("label");
+                    label.setAttribute('for', 'dynamic_field' + field);
+                    label.innerHTML = field + '<br/><small><i>' +
+                      domain.services[service].fields[field].description  +
+                      '</i></small>';
+                    document.querySelector('#dynamic_fields').appendChild(label);
+                    let br = document.createElement('br');
+                    document.querySelector('#dynamic_fields').appendChild(br);
+                    let input = document.createElement("input");
+                    input.type = 'text';
+                    input.placeholder = field;
+                    input.name = 'dynamic_field['+ field +']';
+                    input.id = 'dynamic_field_' + field;
+                    document.querySelector('#dynamic_fields').appendChild(input);
+                    document.querySelector('#dynamic_fields').appendChild(br.cloneNode(true));
+                  });
+                }
+              })
+            }
+          })
+        })
+      });
     </script>
 </head>
 <body role="document">
@@ -182,16 +229,13 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
             <br/>
 
             <label for="service_call">Service call:</label><br/>
-            <input id="service_call" required name="service_call" type="text" />
+            <select id="service_call" required name="service_call">
+            </select>
             <br/>
 
-            <label for="entity_id">EntityID:</label><br/>
-            <input id="entity_id" name="entity_id" type="text" />
-            <br/>
+            <div id="dynamic_fields">
 
-            <label for="additional_data">Additional Data (in json format):</label><br/>
-            <textarea rows="5" cols="50" id="additional_data" name="additional_data" type="text"></textarea>
-            <br/>
+            </div>
 
             <label for="valid_from_date">Valid from:</label><br/>
             <input id="valid_from_date"
