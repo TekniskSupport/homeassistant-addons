@@ -75,7 +75,10 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             text-align: center;
         }
 
-        a, a:link, a:visited, a:active {
+        a.link,
+        a.link:link,
+        a.link:visited,
+        a.link:active {
             margin: .5rem;
             padding: .5rem 1rem;
             position:relative;
@@ -129,11 +132,11 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             padding: 0;
         }
 
-        a.noBorder,
-        a.noBorder:link,
-        a.noBorder:visited,
-        a.noBorder:hover,
-        a.noBorder:active
+        a.link.noBorder,
+        a.link.noBorder:link,
+        a.link.noBorder:visited,
+        a.link.noBorder:hover,
+        a.link.noBorder:active
         {
             border: none;
             margin: 0;
@@ -234,6 +237,37 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             }
           });
         });
+
+        if (document.querySelector('.dateinput').type != "date")
+        {
+          let jqcss = document.createElement("link");
+          jqcss.setAttribute('href', window.location.protocol + "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css");
+          jqcss.setAttribute('rel',  "stylesheet");
+
+          let jqjs  = document.createElement('script');
+          jqjs.src  = window.location.protocol + "//code.jquery.com/jquery-1.12.4.js";
+          jqjs.id   = 'jquery';
+          jqjs.type ='text/javascript';
+
+          let jqui  = document.createElement('script');
+          jqui.src  = window.location.protocol + "//code.jquery.com/ui/1.12.1/jquery-ui.js";
+          jqui.type ='text/javascript';
+
+          document.querySelector('head').appendChild(jqcss);
+          document.querySelector('head').appendChild(jqjs);
+          document.querySelector('head').appendChild(jqui);
+          document.getElementById('jquery').addEventListener('load', function () {
+            console.log('loaded!!');
+            setTimeout(
+              function(){
+                $(function () {
+                  $('.dateinput').datepicker();
+                });
+              },
+            1000);
+
+          });
+        }
       });
     </script>
 </head>
@@ -319,7 +353,7 @@ foreach($actions->getAllLinks() as $link) :
 ?>
     <div class="row">
         <div class="column">
-            Link: <input class="copylink" id="copyLink<?=$link?>" type="text" value="<?= $actions->externalUrl ?><?= $link ?>/" />
+            Link: <input class="link copylink" id="copyLink<?=$link?>" type="text" value="<?= $actions->externalUrl ?><?= $link ?>/" />
             <span class="copy" style="cursor:pointer;" onclick='(function() {
               var copyText = document.getElementById("copyLink<?=$link?>");
                 copyText.select();
@@ -332,7 +366,7 @@ foreach($actions->getAllLinks() as $link) :
             </span>
         </div>
         <div class="column">
-            <a href="?action=addAction&id=<?= $link ?>">
+            <a class="link" href="?action=addAction&id=<?= $link ?>">
                 Add action
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M17,13H13V17H11V13H7V11H11V7H13V11H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z" />
@@ -340,7 +374,7 @@ foreach($actions->getAllLinks() as $link) :
             </a>
         </div>
         <div class="column">
-            <a href="?action=deleteLink&id=<?= $link ?>">
+            <a class="link" href="?action=deleteLink&id=<?= $link ?>">
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
                 </svg>
@@ -352,7 +386,7 @@ foreach($actions->getAllLinks() as $link) :
                 if (!is_null($data)) {
                     foreach($data as $action => $entry):?>
                         <li>
-                            <a class="noBorder" href="?action=removeAction&id=<?= $link ?>&action_id=<?= $action ?>">
+                            <a class="link noBorder" href="?action=removeAction&id=<?= $link ?>&action_id=<?= $action ?>">
                                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                                     <path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
                                 </svg>
