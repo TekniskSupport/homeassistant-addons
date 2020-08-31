@@ -40,9 +40,8 @@ RUN apk --update add \
         php7-xml \
         php7-xmlreader \
         php7-xmlwriter \
-        php7-zip
-
-RUN apk add --no-cache curl
+        php7-zip \
+        curl
 
 EXPOSE 8888
 EXPOSE 8899
@@ -54,4 +53,5 @@ COPY app/admin/ /var/www/admin/
 COPY app/user/ /var/www/user/
 RUN chmod a+x /run.sh
 RUN mkdir -p /run/nginx
+RUN ln -sf /dev/stderr /var/log/nginx/error.log
 CMD ["/run.sh"]

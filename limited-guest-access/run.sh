@@ -1,4 +1,8 @@
 #!/usr/bin/with-contenv bashio
 chmod 777 /data/
-nginx > /dev/null 2>&1 && php-fpm7
+
+if ! pgrep "nginx" > /dev/null; then
+    nginx && php-fpm7 
+fi
+
 exec "$@"
