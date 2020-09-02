@@ -13,8 +13,8 @@
     "external_url": "str"
   },
   "ports": {
-    "8888/tcp": 8888,
-    "8899/tcp": 8899
+    "8888/tcp": 8888
   },
+  "ingress": true,
   "homeassistant_api": true
 }

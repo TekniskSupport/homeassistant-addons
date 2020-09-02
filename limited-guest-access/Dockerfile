@@ -44,7 +44,6 @@ RUN apk --update add \
         curl
 
 EXPOSE 8888
-EXPOSE 8899
 
 COPY run.sh /
 COPY default.conf /etc/nginx/conf.d/
