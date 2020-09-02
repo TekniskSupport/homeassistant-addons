@@ -1,3 +1,12 @@
+## [0.1.1] - 2020-09-02
+### Added
+- lgootype
+- icon
+
+## [0.1.0] - 2020-09-02
+### Breaking change
+- Breaking change, separated service call data from configuration
+
 ## [0.0.7] - 2020-08-31
 ## [0.0.6] - 2020-08-31
 ## [0.0.5] - 2020-08-31
