@@ -1,3 +1,11 @@
+## [0.1.3] - 2020-09-02
+### Added 
+- Ingress mode
+
+## [0.1.2] - 2020-09-02
+### Bugfix
+- Removed empty elements from data object
+
 ## [0.1.1] - 2020-09-02
 ### Added
 - lgootype
