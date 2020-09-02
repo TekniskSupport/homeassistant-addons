@@ -83,9 +83,8 @@ class Actions {
 
     protected function performAction($actionData)
     {
-        $data           = ['entity_id' => $actionData->entity_id] ?? [];
-        $additionalData = json_decode($actionData->additional_data, 1) ?? [];
-        $data           = json_encode(array_merge($data, $additionalData));
+        $data           = $actionData->service_call_data ?? [];
+        $data           = json_encode($data);
         $serviceCall    = explode('.',$actionData->service_call);
 
         $ch = curl_init(self::API_URL . 'services/' . $serviceCall[0]. '/'. $serviceCall[1]);

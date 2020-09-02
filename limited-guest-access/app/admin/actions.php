@@ -79,7 +79,7 @@ class Actions
         ];
 
         foreach ($_POST['dynamic_field'] as $key => $additionalField) {
-            $newData[$id][$key] = $additionalField;
+            $newData[$id]['service_call_data'][$key] = $additionalField;
         }
 
         if (json_encode($newData)) {
