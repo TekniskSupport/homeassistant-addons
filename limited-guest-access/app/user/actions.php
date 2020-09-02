@@ -83,7 +83,7 @@ class Actions {
 
     protected function performAction($actionData)
     {
-        $data           = $actionData->service_call_data ?? [];
+        $data           = (object) array_filter((array) $actionData->service_call_data) ?? [];
         $data           = json_encode($data);
         $serviceCall    = explode('.',$actionData->service_call);
 
