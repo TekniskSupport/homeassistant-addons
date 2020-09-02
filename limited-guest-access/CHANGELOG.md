@@ -1,3 +1,7 @@
+## [0.1.4] - 2020-09-02
+### Bugfix 
+- Background color, not transparent
+
 ## [0.1.3] - 2020-09-02
 ### Added 
 - Ingress mode

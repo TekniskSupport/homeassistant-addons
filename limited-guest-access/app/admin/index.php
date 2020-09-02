@@ -16,6 +16,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 
         body {
             height: 100%;
+            background-color: white;
         }
 
         h1 {
