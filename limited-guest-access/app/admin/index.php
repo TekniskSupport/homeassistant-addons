@@ -171,75 +171,84 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
       let serviceData = <?= $actions->getServiceData() ?>;
       let states = <?= $actions->getStates() ?>;
       document.addEventListener('DOMContentLoaded', (event) => {
-        serviceData.forEach(domain => {
-            if (undefined !== domain.services) {
-                Object.keys(domain.services).forEach(service => {
-                    let option = document.createElement('option');
-                    option.value = domain.domain + '.' + service;
-                    option.text  = option.value;
-                    document.querySelector('#service_call').appendChild(option);
-                })
-          }
-        });
-
-        let sc = document.querySelector('#service_call');
-        sc.addEventListener('change', (event) => {
-          let value = sc.options[sc.selectedIndex].value;
-          let service_call = value.split(".");
+        if (document.querySelector('#service_call')) {
+          serviceData.sort((a, b) => a.domain > b.domain ? 1 : -1);
           serviceData.forEach(domain => {
-            if (domain.domain == service_call[0]) {
-              Object.keys(domain.services).forEach(service => {
-                if (service == service_call[1]) {
-                  document.querySelector('#dynamic_fields').innerHTML = '';
-                  Object.keys(domain.services[service].fields).forEach(field => {
-
-                    let label = document.createElement("label");
-                    label.setAttribute('for', 'dynamic_field' + field);
-                    label.innerHTML = field + '<br/><small><i>' +
-                      domain.services[service].fields[field].description  +
-                      '</i></small>';
-                    document.querySelector('#dynamic_fields').appendChild(label);
-                    let br = document.createElement('br');
-                    document.querySelector('#dynamic_fields').appendChild(br);
-                    let input = document.createElement("input");
-                    input.type = 'text';
-                    input.placeholder = field;
-                    input.name = 'dynamic_field['+ field +']';
-                    input.id = 'dynamic_field_' + field;
-                    document.querySelector('#dynamic_fields').appendChild(input);
-                    document.querySelector('#dynamic_fields').appendChild(br.cloneNode(true));
-                  });
-                }
+            if (undefined !== domain.services) {
+              let services = Object.keys(domain.services);
+              services.sort((a, b) => a.services > b.services ? 1 : -1);
+              services.forEach(service => {
+                let option = document.createElement('option');
+                option.value = domain.domain + '.' + service;
+                option.text = option.value;
+                document.querySelector('#service_call').appendChild(option);
               })
             }
           });
 
-          let isReplaced = false;
-          states.forEach(state => {
-            let entity = state.entity_id.split('.');
-            if (service_call[0] == entity[0]) {
-              if (typeof document.querySelector("#dynamic_field_entity_id") !== undefined) {
-                if (!isReplaced) {
-                  let entities = document.querySelector("#dynamic_field_entity_id");
-                  let entitiesReplace = document.createElement('select');
-                  if (entities.name) entitiesReplace.name = entities.name;
-                  if (entities.id) entitiesReplace.id = entities.id;
-                  if (entities.className) entitiesReplace.className = entities.className;
-                  entities.parentNode.replaceChild(entitiesReplace, entities);
-                  isReplaced = true;
-                }
+          let sc = document.querySelector('#service_call');
+          sc.addEventListener('change', (event) => {
+            let value = sc.options[sc.selectedIndex].value;
+            let service_call = value.split(".");
+            serviceData.forEach(domain => {
+              if (domain.domain == service_call[0]) {
+                Object.keys(domain.services).forEach(service => {
+                  if (service == service_call[1]) {
+                    document.querySelector('#dynamic_fields').innerHTML = '';
+                    Object.keys(domain.services[service].fields).forEach(field => {
 
-                let option = document.createElement('option');
-                let newEntities = document.querySelector("#dynamic_field_entity_id");
-                option.value = state.entity_id;
-                option.text = option.value;
-                newEntities.appendChild(option);
+                      let label = document.createElement("label");
+                      label.setAttribute('for', 'dynamic_field' + field);
+                      label.innerHTML = field + '<br/><small><i>' +
+                        domain.services[service].fields[field].description +
+                        '</i></small>';
+                      document.querySelector('#dynamic_fields').appendChild(label);
+                      let br = document.createElement('br');
+                      document.querySelector('#dynamic_fields').appendChild(br);
+                      let input = document.createElement("input");
+                      input.type = 'text';
+                      input.placeholder = field;
+                      input.name = 'dynamic_field[' + field + ']';
+                      input.id = 'dynamic_field_' + field;
+                      document.querySelector('#dynamic_fields').appendChild(input);
+                      document.querySelector('#dynamic_fields').appendChild(br.cloneNode(true));
+                    });
+                  }
+                })
               }
-            }
-          });
-        });
+            });
 
-        if (document.querySelector('.dateinput').type != "date")
+            let isReplaced = false;
+            states.sort((a, b) => (a.entity_id > b.entity_id) ? 1 : -1);
+            states.forEach(state => {
+              let entity = state.entity_id.split('.');
+              if (service_call[0] == entity[0]) {
+                if (typeof document.querySelector("#dynamic_field_entity_id") !== 'undefined') {
+                  if (!isReplaced) {
+                    let entities = document.querySelector("#dynamic_field_entity_id");
+                    let entitiesReplace = document.createElement('select');
+                    if (entities.name) entitiesReplace.name = entities.name;
+                    if (entities.id) entitiesReplace.id = entities.id;
+                    if (entities.className) entitiesReplace.className = entities.className;
+                    entities.parentNode.replaceChild(entitiesReplace, entities);
+                    isReplaced = true;
+                  }
+
+                  let option = document.createElement('option');
+                  let newEntities = document.querySelector("#dynamic_field_entity_id");
+                  option.value = state.entity_id;
+                  option.text = option.value;
+                  newEntities.appendChild(option);
+                }
+              }
+            });
+          });
+
+          const builtForm = new Event('builtForm');
+          document.dispatchEvent(builtForm);
+        }
+
+        if (document.querySelector('.dateinput') && document.querySelector('.dateinput').type != "date")
         {
           let jqcss = document.createElement("link");
           jqcss.setAttribute('href', window.location.protocol + "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css");
@@ -265,7 +274,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
                   $('.dateinput').datepicker();
                 });
               },
-            1000);
+              1000);
 
           });
         }
@@ -273,16 +282,32 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
     </script>
 </head>
 <body role="document">
-    <a class="createNewLink" href="?action=generateNewLink">Create link</a>
-    <br/><br/>
+<a class="createNewLink" href="?action=generateNewLink">Create link</a>
+<br/><br/>
 <?php
-if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
+if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUEST['action'] == 'adjustAction')) :
+    $queryParams =  ($_REQUEST['action'] == 'adjustAction')
+        ? '?action=editAction&id='. $_REQUEST['id'] .'&action_id=' . $_REQUEST['action_id']
+        : '?action=addActionToLink&id='. $_REQUEST['id'];
+    if ($_REQUEST['action'] == 'adjustAction') {
+        $data = json_decode(file_get_contents("/data/links/{$_REQUEST['id']}.json"));
+    }
+    ?>
     <fieldset>
         <legend>Add action to link:</legend>
+        <?php if ($_REQUEST['action'] == 'adjustAction'): ?>
+        <div style="text-align: right;">
+            <a class="link noBorder" href="javascript:fillData();" title="reset form">
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M7 7H17V5H19V19H5V5H7V7M12 17V15H17V17H12M12 11V9H17V11H12M8 12V9H7V8H9V12H8M9.25 14C9.66 14 10 14.34 10 14.75C10 14.95 9.92 15.14 9.79 15.27L8.12 17H10V18H7V17.08L9 15H7V14H9.25" />
+                </svg>
+            </a>
+        </div>
+        <?php endif; ?>
         <form
-            action="?action=addActionToLink&id=<?= $_GET['id'] ?>"
-            method="post"
-            onsubmit="validateDates();"
+                action="<?= $queryParams ?>"
+                method="post"
+                onsubmit="validateDates();"
         >
             <label for="friendly_name">Friendly name:</label><br/>
             <input id="friendly_name" required name="friendly_name" type="text" />
@@ -326,7 +351,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
                    placeholder="YYYY-MM-DD"
                    type="date"
                    min="<?= date('Y-m-d',time())?>"
-                   value="<?= date('Y-m-d',time())?>"
+                   value="<?= date('Y-m-d',time());?>"
                    onchange="validateDates();"
             />
             <input id="expiry_time_time"
@@ -346,6 +371,51 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'addAction') :?>
             <input type="submit" />
         </form>
     </fieldset>
+    <script type="text/javascript">
+      let data = <?= (isset($data) && isset($data->{$_GET['action_id']})) ? json_encode($data->{$_GET['action_id']}) : '[]' ?>;
+      function fillData() {
+        Object.keys(data).forEach(function (key) {
+          if (document.querySelector('[name=' + key + ']')) {
+            if (key == 'valid_from') {
+              let dateParts = data[key].split(' ');
+              let date = dateParts[0];
+              let time = dateParts[1];
+              if (date)
+                document.querySelector('#valid_from_date').value = date;
+              if (time)
+                document.querySelector('#valid_from_time').value = time;
+            }
+            if (key == 'expiry_time') {
+              let dateParts = data[key].split(' ');
+              let date = dateParts[0];
+              let time = dateParts[1];
+              if (date)
+                document.querySelector('#expiry_time_date').value = date;
+              if (time)
+                document.querySelector('#expiry_time_time').value = time;
+            }
+            if (document.querySelector('[name=' + key + ']').type == 'checkbox') {
+              if (data[key] == 1) {
+                document.querySelector('[name=' + key + ']').checked = 'checked';
+              }
+            } else {
+                document.querySelector('[name=' + key + ']').value = data[key];
+            }
+            let change = new Event("change");
+            document.querySelector('[name=' + key + ']').dispatchEvent(change);
+            Object.keys(data['service_call_data']).forEach(function (serviceCallData) {
+              if (document.querySelector('#dynamic_field_' + serviceCallData)) {
+                document.querySelector('#dynamic_field_' + serviceCallData).value = data['service_call_data'][serviceCallData];
+                let change = new Event("change");
+                document.querySelector('#dynamic_field_' + serviceCallData).dispatchEvent(change);
+              }
+            })
+          }
+        })
+      }
+      fillData();
+      document.addEventListener('builtForm', function (e) { fillData(); }, false);
+    </script>
     <br/><br/>
 <?php endif;
 foreach($actions->getAllLinks() as $link) :
@@ -354,13 +424,18 @@ foreach($actions->getAllLinks() as $link) :
 ?>
     <div class="row">
         <div class="column">
-            Link: <input class="link copylink" id="copyLink<?=$link?>" type="text" value="<?= $actions->externalUrl ?><?= $link ?>/" />
+            Link: <input
+                    class="link copylink"
+                    id="copyLink<?=$link?>"
+                    type="text"
+                    value="<?= $actions->externalUrl ?><?= $link ?>/"
+            />
             <span class="copy" style="cursor:pointer;" onclick='(function() {
-              var copyText = document.getElementById("copyLink<?=$link?>");
-                copyText.select();
-                copyText.setSelectionRange(0, 99999);
-                document.execCommand("copy");
-            })();'>
+                    var copyText = document.getElementById("copyLink<?=$link?>");
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999);
+                    document.execCommand("copy");
+                    })();'>
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
                 </svg>
@@ -390,6 +465,11 @@ foreach($actions->getAllLinks() as $link) :
                             <a class="link noBorder" href="?action=removeAction&id=<?= $link ?>&action_id=<?= $action ?>">
                                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                                     <path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
+                                </svg>
+                            </a>
+                            <a class="link noBorder" href="?action=adjustAction&id=<?= $link ?>&action_id=<?= $action ?>">
+                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
                                 </svg>
                             </a>
                             <?= $entry->friendly_name ?>

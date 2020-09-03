@@ -60,16 +60,19 @@ class Actions
             case 'addActionToLink':
                 $this->addActionToLink($this->getId())->redirect();
                 break;
+            case 'editAction':
+                $this->addActionToLink($this->getId(), $_GET['action_id'])->redirect();
+                break;
         }
     }
 
-    protected function addActionToLink($hash)
+    protected function addActionToLink($hash, $id = false)
     {
         $link    = json_decode(file_get_contents(self::DATA_DIR . $hash . '.json'), true);
         if (!$link) {
             $link = [];
         }
-        $id = uniqid();
+        $id = ($id) ? $id : uniqid();
         $newData[$id] = [
             'friendly_name'   => $_POST['friendly_name'],
             'service_call'    => $_POST['service_call'],
@@ -150,6 +153,7 @@ class Actions
 
         return curl_exec($ch);
     }
+
     public function getStates()
     {
         $ch = curl_init(self::API_URL . 'states');
