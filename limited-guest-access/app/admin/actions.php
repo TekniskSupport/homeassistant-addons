@@ -4,9 +4,10 @@ namespace TekniskSupport\LimitedGuestAccess\Admin;
 
 class Actions
 {
-    const API_URL  = 'http://supervisor/core/api/';
+    protected $api_url  = 'http://supervisor/core/api/';
     const DATA_DIR = '/data/links/';
     public $externalUrl;
+    protected $token;
     protected $allLinks = null;
     protected $isDirty  = false;
 
@@ -17,6 +18,8 @@ class Actions
         }
         $options = json_decode(file_get_contents('/data/options.json'));
         $this->externalUrl = $options->external_url;
+        $this->token = $options->home_assistant_token;
+        $this->api_url = $options->api_url;
 
         $this->handleRequest();
         $this->getAllLinks();
@@ -144,10 +147,10 @@ class Actions
 
     public function getServiceData()
     {
-        $ch = curl_init(self::API_URL . 'services');
+        $ch = curl_init($this->api_url . 'services');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                           "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}"
+                           "Authorization: Bearer {$this->token}"
                        ]
         );
 
@@ -156,10 +159,10 @@ class Actions
 
     public function getStates()
     {
-        $ch = curl_init(self::API_URL . 'states');
+        $ch = curl_init($this->api_url . 'states');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                           "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}"
+                           "Authorization: Bearer {$this->token}"
                        ]
         );
 

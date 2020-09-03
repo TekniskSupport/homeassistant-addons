@@ -3,8 +3,9 @@ namespace TekniskSupport\LimitedGuestAccess\User;
 
 class Actions {
     const     DATA_DIR = '/data/links/';
-    const     API_URL  = 'http://supervisor/core/api/';
+    protected $api_url  = 'http://supervisor/core/api/';
     protected $data;
+    protected $token;
     public    $actionName;
 
     public function __construct()
@@ -18,6 +19,10 @@ class Actions {
                 file_get_contents(self::DATA_DIR . $this->getLink() . '.json')
             );
         }
+
+        $options       = json_decode(file_get_contents('/data/options.json'));
+        $this->token   = $options->home_assistant_token;
+        $this->api_url = $options->api_url;
 
         if (isset($_GET['action'])) {
             $availableActions = $this->getFilteredActions();
@@ -87,12 +92,12 @@ class Actions {
         $data           = json_encode($data);
         $serviceCall    = explode('.',$actionData->service_call);
 
-        $ch = curl_init(self::API_URL . 'services/' . $serviceCall[0]. '/'. $serviceCall[1]);
+        $ch = curl_init($this->api_url . 'services/' . $serviceCall[0]. '/'. $serviceCall[1]);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                           "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}",
+                           "Authorization: Bearer {$this->token}",
                            'Content-Type: application/json',
                            'Content-Length: ' . strlen($data)
                        ]

@@ -1,15 +1,12 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM alpine:latest
 
 ENV LANG C.UTF-8
-
 # PHP_INI_DIR to be symmetrical with official php docker image
 ENV PHP_INI_DIR /etc/php/7.3
 
 # Persistent runtime dependencies
 
-RUN apk add --no-cache nginx openrc
-
+RUN apk add --no-cache nginx openrc bash
 RUN apk --update add \
         php7 \
         php7-bcmath \
@@ -54,4 +51,5 @@ COPY app/user/ /var/www/user/
 RUN chmod a+x /run.sh
 RUN mkdir -p /run/nginx
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
+
 CMD ["/run.sh"]

@@ -1,0 +1,5 @@
+{
+  "external_url": "https://your-external-url:port/",
+  "home_assistant_token": "YOUR_TOKEN",
+  "api_url": "https://hass.local:8123/api"
+}
