@@ -1,3 +1,9 @@
+## [0.1.5] - 2020-09-03
+### Added
+- Re enabled port 8899
+- Dropdown options are alphabetically sorted
+- You can now edit an action
+
 ## [0.1.4] - 2020-09-02
 ### Bugfix 
 - Background color, not transparent
