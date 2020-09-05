@@ -1,3 +1,7 @@
+## [0.1.8] - 2020-09-05
+### Feature
+- Added Panel icon
+
 ## [0.1.7] - 2020-09-05
 ### Feature
 - Added TLS support
