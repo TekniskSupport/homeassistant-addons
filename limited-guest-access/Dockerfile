@@ -47,6 +47,7 @@ EXPOSE 8888
 EXPOSE 8899
 
 COPY run.sh /
+COPY tls.conf /etc/nginx/snippets/
 COPY default.conf /etc/nginx/conf.d/
 COPY www.conf /etc/php7/php-fpm.d/
 COPY app/admin/ /var/www/admin/

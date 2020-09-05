@@ -1,3 +1,7 @@
+## [0.1.7] - 2020-09-05
+### Feature
+- Added TLS support
+
 ## [0.1.6] - 2020-09-05
 ### Bugfix
 - High CPU usage
