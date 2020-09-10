@@ -4,8 +4,12 @@ namespace TekniskSupport\LimitedGuestAccess\User;
 class Actions {
     const     DATA_DIR = '/data/links/';
     const     API_URL  = 'http://supervisor/core/api/';
+    public    $passwordProtected = false;
+    public    $authenticated     = false;
+    protected $linkData;
     protected $data;
     public    $actionName;
+    public    $theme;
 
     public function __construct()
     {
@@ -17,6 +21,22 @@ class Actions {
             $this->data = json_decode(
                 file_get_contents(self::DATA_DIR . $this->getLink() . '.json')
             );
+
+            if (isset($this->data->linkData->theme)) {
+                $this->theme = $this->data->linkData->theme;
+            }
+
+            if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
+                $this->passwordProtected = true;
+                session_start();
+                if ($_SESSION['authenticated'] === true) {
+                    $this->authenticated = true;
+                }
+                if (isset($_POST['password']) && password_verify($_POST['password'], $this->data->linkData->password)) {
+                    $this->authenticated = true;
+                    $_SESSION['authenticated'] = true;
+                }
+            }
         }
 
         if (isset($_GET['action'])) {
@@ -43,6 +63,10 @@ class Actions {
     {
         $filteredActions = (object)[];
         $allActions = $this->getAllActions();
+        if (isset($allActions->linkData)) {
+            $this->linkData = $allActions->linkData;
+            unset($allActions->linkData);
+        }
         foreach ($allActions as $id => $action) {
             if ($this->validateTime($action)) {
                 $filteredActions->{$id} = $action;
@@ -105,6 +129,9 @@ class Actions {
     protected function getLink()
     {
         if (isset($_REQUEST['link']) && ctype_xdigit($_REQUEST['link']))
+            return $_REQUEST['link'];
+        elseif (isset($_REQUEST['link'])
+                && preg_match('/^([a-zA-Z0-9]+)$/', $_REQUEST['link']))
             return $_REQUEST['link'];
         else
             throw new \Exception('No ID given!');

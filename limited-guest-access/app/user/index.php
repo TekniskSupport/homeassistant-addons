@@ -1,6 +1,28 @@
 <?php
 include('actions.php');
 $actions = new \TekniskSupport\LimitedGuestAccess\User\Actions;
+switch ($actions->theme) {
+    case 'default':
+        $primaryColor   = 'rgba(11,11,11,1);';
+        $secondaryColor = 'rgba(40,40,40,.5);';
+        break;
+    case 'light-grey':
+        $primaryColor   = 'rgba(211,211,211,1);';
+        $secondaryColor = 'rgba(11,11,11,.5);';
+        break;
+    case 'dark-blue':
+        $primaryColor   = 'rgba(11,11,11,1);';
+        $secondaryColor = 'rgba(11,11,221,.5);';
+        break;
+    case 'light-blue':
+        $primaryColor   = 'rgba(221,221,221,1);';
+        $secondaryColor = 'rgba(11,11,221,.5);';
+        break;
+    default:
+        $primaryColor   = 'rgba(11,11,11,1);';
+        $secondaryColor = 'rgba(40,40,40,.5);';
+        break;
+}
 ?><!DOCTYPE>
 <html>
 <head>
@@ -15,12 +37,11 @@ $actions = new \TekniskSupport\LimitedGuestAccess\User\Actions;
         }
 
         body {
-            height: 100%;
-            background: #111;
+            background: <?= $primaryColor ?>;
         }
 
         h1 {
-            color: #efefef;
+            color: ghostwhite;
             margin: 0 auto;
             text-align: center;
         }
@@ -34,7 +55,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\User\Actions;
             font-size: 22px;
             padding: 2rem 4rem;
             border: 1px solid #888;
-            background-color: #1a1a1a;
+            background-color: <?= $secondaryColor ?>;
             border-radius: 3px;
             width: 75%;
             display: block;
@@ -49,31 +70,67 @@ $actions = new \TekniskSupport\LimitedGuestAccess\User\Actions;
         a:before {
             right: 2rem;
             content: ">";
-            color: white;
+            color: ghostwhite;
             position: absolute;
             font-size: 36px;
             font-weight: bold;
             top: 25%;
             bottom: 50%;
         }
+
+
+        input, textarea, select {
+            width: 70%;
+            background:transparent;
+            color: ghostwhite;
+            margin: 5px 0;
+            padding: 1%;
+            border: 2px solid ghostwhite;
+            transition-duration:0.5s;
+        }
+        input:focus, textarea:focus {
+            border-left:10px solid ghostwhite;
+            transition-duration:0.5s;
+        }
+        input[type='submit'] {
+            color: #1a1a1a;
+            background-color: ghostwhite;
+            border: 2px solid ghostwhite;
+            transition-duration:0.3s;
+        }
+        input[type='submit']:hover {
+            color: ghostwhite;
+            background:transparent;
+            transition-duration:0.3s;
+        }
     </style>
 </head>
 <body role="document">
 <?php
-$availableActions = $actions->getFilteredActions();
+if ($actions->passwordProtected && !$actions->authenticated) :?>
+    <div style="text-align: center; margin-top: 20%">
+        <form action='?auth' method="post">
+            <input name='password' type="password" placeholder="password">
+            <input type="submit" />
+        </form>
+    </div>
+<?php
+else:
+    $availableActions = $actions->getFilteredActions();
 
-if (isset($_GET['performedAction']) && !is_null($_GET['performedAction'])) {
-    echo '<h1>Performing: ' . urldecode($_GET['performedAction']) . "</h1>";
-}
+    if (isset($_GET['performedAction']) && !is_null($_GET['performedAction'])) {
+        echo '<h1>Performing: ' . urldecode($_GET['performedAction']) . "</h1>";
+    }
 
-if (!$actions) {
-    throw new \Exception('Could not get actions');
-}
+    if (!$actions) {
+        throw new \Exception('Could not get actions');
+    }
 
-foreach ($availableActions as $id => $data) :?>
-    <a href="?action=<?= $id ?>"><?= $data->friendly_name ?></a>
-    <?php
-endforeach;
+    foreach ($availableActions as $id => $data) :?>
+        <a href="?action=<?= $id ?>"><?= $data->friendly_name ?></a>
+        <?php
+    endforeach;
+endif;
 ?>
 </body>
 </html>

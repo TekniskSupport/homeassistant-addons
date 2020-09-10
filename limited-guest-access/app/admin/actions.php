@@ -35,6 +35,9 @@ class Actions
     {
         if (isset($_REQUEST['id']) && ctype_xdigit($_REQUEST['id']))
             return $_REQUEST['id'];
+        elseif (isset($_REQUEST['id'])
+                && preg_match('/^([a-zA-Z0-9]+)$/', $_REQUEST['id']))
+            return $_REQUEST['id'];
         else
             throw new \Exception('No ID given!');
     }
@@ -47,6 +50,17 @@ class Actions
         }
 
         switch ($_GET['action']) {
+            case 'createNamedLink':
+                $linkPath = !empty($_REQUEST['linkPath'])
+                          ? $_REQUEST['linkPath']
+                          : $this->generateHash();
+                $password = !empty($_REQUEST['password'])
+                          ? password_hash($_REQUEST['password'], CRYPT_BLOWFISH)
+                          : null;
+                $theme    = $_REQUEST['theme'];
+
+                $this->generateNewLink($theme, $linkPath, $password)->redirect();
+                break;
             case 'generateNewLink':
                 $this->generateNewLink()->redirect();
                 break;
@@ -104,12 +118,33 @@ class Actions
         return $this;
     }
 
-    protected function generateNewLink()
+    protected function generateNewLink(
+        $theme = 'default',
+        $linkPath = null,
+        $password = null
+    )
     {
-        $hash = $this->generateHash();
+        if (!$linkPath) {
+            $hash = $this->generateHash();
+        } else {
+            $hash = $linkPath;
+        }
+
         if (touch(self::DATA_DIR . $hash . '.json')) {
             $this->isDirty = true;
         }
+
+        $linkData = ['linkData' =>
+             [
+                'password' => $password,
+                'theme'    => $theme
+            ]
+        ];
+
+        file_put_contents(
+            self::DATA_DIR . $hash . '.json',
+            json_encode($linkData)
+        );
 
         return $this;
     }

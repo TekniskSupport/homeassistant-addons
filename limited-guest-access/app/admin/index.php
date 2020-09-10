@@ -144,6 +144,17 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             padding: 0 0;
             position: initial;
         }
+
+        #customLink {
+            width: initial;
+        }
+        #customLink + label + fieldset {
+            display: none;
+        }
+
+        #customLink:checked + label + fieldset {
+            display: block;
+        }
     </style>
     <script type="text/javascript">
       function validateDates() {
@@ -287,7 +298,23 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
     </script>
 </head>
 <body role="document">
-<a class="createNewLink" href="?action=generateNewLink">Create link</a>
+<a class="createNewLink" href="?action=generateNewLink">Create link</a><br/>
+<br/>
+<input type="checkbox" id="customLink"><label for="customLink">Custom link</label>
+<fieldset>
+    <legend>Create advanced link</legend>
+    <form action="?action=createNamedLink" method="post">
+        <input type="text" name="linkPath" placeholder="Optional custom path (valid chars 0-9A-z" />
+        <select name="theme">
+            <option selected="selected" value="default">default - dark</option>
+            <option value="light-grey">light - grey</option>
+            <option value="dark-blue">dark - blue</option>
+            <option value="light-blue">light - blue</option>
+        </select>
+        <input type="password" name="password" placeholder="Optional password" />
+        <input type="submit" />
+    </form>
+</fieldset>
 <br/><br/>
 <?php
 if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUEST['action'] == 'adjustAction')) :
@@ -297,7 +324,7 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
     if ($_REQUEST['action'] == 'adjustAction') {
         $data = json_decode(file_get_contents("/data/links/{$_REQUEST['id']}.json"));
     }
-    ?>
+?>
     <fieldset>
         <legend>Add action to link:</legend>
         <?php if ($_REQUEST['action'] == 'adjustAction'): ?>
@@ -430,6 +457,7 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
 foreach($actions->getAllLinks() as $link) :
     $link = str_replace([$actions::DATA_DIR,'.json'], '', $link);
     $data = json_decode(file_get_contents("/data/links/{$link}.json"),false);
+    unset($data->linkData);
 ?>
     <div class="row">
         <div class="column">

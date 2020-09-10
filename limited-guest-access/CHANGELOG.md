@@ -1,3 +1,9 @@
+## [0.1.10] - 2020-09-05
+### Added
+- Optional password to link
+- Custom link path
+- (crude) Theme support
+
 ## [0.1.9] - 2020-09-05
 ### Bugfix
 - Added default start and end time 
