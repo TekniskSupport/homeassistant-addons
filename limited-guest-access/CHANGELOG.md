@@ -1,3 +1,8 @@
+## [0.1.9] - 2020-09-05
+### Bugfix
+- Added default start and end time 
+- Fixed bug with first action add did not create service call data fields
+
 ## [0.1.8] - 2020-09-05
 ### Feature
 - Added Panel icon

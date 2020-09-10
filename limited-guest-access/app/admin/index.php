@@ -187,7 +187,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
           });
 
           let sc = document.querySelector('#service_call');
-          sc.addEventListener('change', (event) => {
+          function populateForm() {
             let value = sc.options[sc.selectedIndex].value;
             let service_call = value.split(".");
             serviceData.forEach(domain => {
@@ -242,7 +242,12 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
                 }
               }
             });
+          }
+
+          sc.addEventListener('change', (event) => {
+            populateForm();
           });
+          populateForm();
 
           const builtForm = new Event('builtForm');
           document.dispatchEvent(builtForm);
@@ -340,6 +345,7 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
                    class="timeinput"
                    placeholder="HH:MM"
                    type="time"
+                   value="00:00"
             />
             <input name="valid_from" type="hidden" id="valid_from" />
             <br/>
@@ -360,6 +366,7 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
                    type="time"
                    placeholder="HH:MM"
                    onchange="validateDates();"
+                   value="23:59"
             />
             <input name="expiry_time" type="hidden" id="expiry_time" />
             <br/>
@@ -403,13 +410,15 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
             }
             let change = new Event("change");
             document.querySelector('[name=' + key + ']').dispatchEvent(change);
-            Object.keys(data['service_call_data']).forEach(function (serviceCallData) {
-              if (document.querySelector('#dynamic_field_' + serviceCallData)) {
-                document.querySelector('#dynamic_field_' + serviceCallData).value = data['service_call_data'][serviceCallData];
-                let change = new Event("change");
-                document.querySelector('#dynamic_field_' + serviceCallData).dispatchEvent(change);
-              }
-            })
+            if ('service_call_data' in data) {
+              Object.keys(data['service_call_data']).forEach(function (serviceCallData) {
+                if (document.querySelector('#dynamic_field_' + serviceCallData)) {
+                  document.querySelector('#dynamic_field_' + serviceCallData).value = data['service_call_data'][serviceCallData];
+                  let change = new Event("change");
+                  document.querySelector('#dynamic_field_' + serviceCallData).dispatchEvent(change);
+                }
+              })
+            }
           }
         })
       }
