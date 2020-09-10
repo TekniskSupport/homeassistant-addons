@@ -17,6 +17,11 @@ click the "create new link" button
 Select which service you want to make public and
 enter the data that is required by the service (for example entity_id)
 
+Within the valid time frame chosen when you created the action,
+your guest can access the external_link/name_of_link 
+(for example http://your-external-url.tld:8888/adf12345)
+to be able to trigger the actions using a button.
+
 ### Install instructions
 
 In home assistant, head to Supervisor -> add-on store 
