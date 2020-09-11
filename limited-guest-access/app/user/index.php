@@ -78,6 +78,27 @@ switch ($actions->theme) {
             bottom: 50%;
         }
 
+        a.state-off:after {
+            right: 8rem;
+            content: "\2022";
+            color: ghostwhite;
+            position: absolute;
+            font-size: 36px;
+            font-weight: bold;
+            top: 25%;
+            bottom: 50%;
+        }
+
+        a.state-on:after {
+            right: 8rem;
+            content: "\2022";
+            color: gold;
+            position: absolute;
+            font-size: 36px;
+            font-weight: bold;
+            top: 25%;
+            bottom: 50%;
+        }
 
         input, textarea, select {
             width: 70%;
@@ -129,8 +150,14 @@ else:
         throw new \Exception('Could not get actions');
     }
 
-    foreach ($availableActions as $id => $data) :?>
-        <a href="?action=<?= $id ?>"><?= $data->friendly_name ?></a>
+    foreach ($availableActions as $id => $data) :
+            $state = (isset($data->service_call_data->entity_id)
+                      && !empty($data->service_call_data->entity_id))
+                   ? json_decode($actions->getState($data->service_call_data->entity_id))
+                   : false;
+        ?>
+        <a <?php if(isset($state->state)): echo 'class="state-'. $state->state . '"'; endif;?>"
+            href="?action=<?= $id ?>"><?= $data->friendly_name ?></a>
         <?php
     endforeach;
 endif;

@@ -153,6 +153,18 @@ class Actions {
         return $this;
     }
 
+    public function getState($entityId)
+    {
+        $ch = curl_init(self::API_URL . 'states/'. $entityId);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                           "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}"
+                       ]
+        );
+
+        return curl_exec($ch);
+    }
+
     public function inject($file)
     {
         if (file_exists(self::INJECT_DIR . $file)) {
