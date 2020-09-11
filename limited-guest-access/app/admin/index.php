@@ -300,11 +300,11 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 <body role="document">
 <a class="createNewLink" href="?action=generateNewLink">Create link</a><br/>
 <br/>
-<input type="checkbox" id="customLink"><label for="customLink">Custom link</label>
+<input type="checkbox" id="customLink">&nbsp;<label for="customLink">Custom link</label>
 <fieldset>
     <legend>Create advanced link</legend>
     <form action="?action=createNamedLink" method="post">
-        <input type="text" name="linkPath" placeholder="Optional custom path (valid chars 0-9A-z" />
+        <input type="text" name="linkPath" placeholder="Optional custom path (valid chars 0-9A-z)" />
         <select name="theme">
             <option selected="selected" value="default">default - dark</option>
             <option value="light-grey">light - grey</option>
