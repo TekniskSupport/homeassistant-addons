@@ -104,8 +104,11 @@ switch ($actions->theme) {
             transition-duration:0.3s;
         }
     </style>
+    <?=  $actions->inject('style.css') ; ?>
+    <?=  $actions->inject('script.js') ; ?>
 </head>
 <body role="document">
+<?=  $actions->inject('header.htm') ; ?>
 <?php
 if ($actions->passwordProtected && !$actions->authenticated) :?>
     <div style="text-align: center; margin-top: 20%">
@@ -132,5 +135,6 @@ else:
     endforeach;
 endif;
 ?>
+<?=  $actions->inject('footer.htm') ; ?>
 </body>
 </html>

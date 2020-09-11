@@ -2,8 +2,9 @@
 namespace TekniskSupport\LimitedGuestAccess\User;
 
 class Actions {
-    const     DATA_DIR = '/data/links/';
-    const     API_URL  = 'http://supervisor/core/api/';
+    const     DATA_DIR           = '/data/links/';
+    const     INJECT_DIR         = '/data/';
+    const     API_URL            = 'http://supervisor/core/api/';
     public    $passwordProtected = false;
     public    $authenticated     = false;
     protected $linkData;
@@ -150,5 +151,17 @@ class Actions {
         header("Location: ". $path);
 
         return $this;
+    }
+
+    public function inject($file)
+    {
+        if (file_exists(self::INJECT_DIR . $file)) {
+            if (!preg_match('/^[\w.]+$/', $file)) {
+
+                return;
+            }
+
+            return file_get_contents(self::INJECT_DIR . $file);
+        }
     }
 }

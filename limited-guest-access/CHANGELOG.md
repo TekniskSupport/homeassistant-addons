@@ -1,3 +1,7 @@
+## [0.1.12] - 2020-09-11
+### Added
+- code injection points to user view
+
 ## [0.1.11] - 2020-09-11
 ### Fixes
 - Fixed typos

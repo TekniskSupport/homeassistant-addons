@@ -22,6 +22,22 @@ your guest can access the external_link/name_of_link
 (for example http://your-external-url.tld:8888/adf12345)
 to be able to trigger the actions using a button.
 
+### Inject code into user view
+
+There are four custom entry points into the user view, that you 
+can use these to modify the design of the end user page
+- style.css
+- script.js
+- header.htm
+- footer.htm
+
+The first two are injected into the `<head>` section of the page, just above `</head>`
+The two latter are injected into the `<body>` section, the first of which just after the opening tag,
+and the footer just before closing the body.
+
+To make use of this, you should create the files in the 
+/data/ directory and adjust them to fit your needs.
+
 ### Install instructions
 
 In home assistant, head to Supervisor -> add-on store 
