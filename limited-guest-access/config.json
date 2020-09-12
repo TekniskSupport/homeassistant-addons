@@ -1,6 +1,6 @@
 {
   "name": "Limited guest access",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "slug": "limited_guest_access",
   "description": "Allow guests to access limited functions",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
@@ -21,7 +21,8 @@
   "ingress": true,
   "homeassistant_api": true,
   "map": [
-    "ssl"
+    "ssl",
+    "share"
   ],
   "panel_icon": "mdi:card-account-details-outline"
 }

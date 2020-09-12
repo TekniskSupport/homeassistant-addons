@@ -3,7 +3,7 @@ namespace TekniskSupport\LimitedGuestAccess\User;
 
 class Actions {
     const     DATA_DIR           = '/data/links/';
-    const     INJECT_DIR         = '/data/';
+    const     INJECT_DIR         = '/share/limited-guest-access/';
     const     API_URL            = 'http://supervisor/core/api/';
     public    $passwordProtected = false;
     public    $authenticated     = false;

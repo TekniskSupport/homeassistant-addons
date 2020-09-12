@@ -36,7 +36,7 @@ The two latter are injected into the `<body>` section, the first of which just a
 and the footer just before closing the body.
 
 To make use of this, you should create the files in the 
-/data/ directory and adjust them to fit your needs.
+/share/limited-guest-access/ directory and adjust them to fit your needs.
 
 ### Install instructions
 

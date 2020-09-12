@@ -1,3 +1,7 @@
+## [0.1.14] - 2020-09-12
+### Added
+- Moved code injection to /share/
+
 ## [0.1.13] - 2020-09-11
 ### Added
 - Display state of switches and more
@@ -77,4 +81,3 @@
 ## [0.0.1] - 2020-08-30
 ### Added
 - initial code
-
