@@ -1,3 +1,7 @@
+## [0.1.15] - 2020-09-15
+### Added
+- device type class to user links
+
 ## [0.1.14] - 2020-09-12
 ### Added
 - Moved code injection to /share/

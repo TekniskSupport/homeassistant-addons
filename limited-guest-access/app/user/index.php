@@ -151,12 +151,24 @@ else:
     }
 
     foreach ($availableActions as $id => $data) :
+            $classes = [];
             $state = (isset($data->service_call_data->entity_id)
                       && !empty($data->service_call_data->entity_id))
                    ? json_decode($actions->getState($data->service_call_data->entity_id))
                    : false;
+            $deviceType = (isset($data->service_call_data->entity_id)
+                      && !empty($data->service_call_data->entity_id))
+                   ? explode('.', $data->service_call_data->entity_id)[0]
+                   : false;
+            if(isset($state->state)) {
+                $classes[] = 'state-' . $state->state;
+            }
+            if($deviceType) {
+                $classes[] = 'device-type-'. $deviceType;
+            }
+            $classes = implode(' ', $classes);
         ?>
-        <a <?php if(isset($state->state)): echo 'class="state-'. $state->state . '"'; endif;?>"
+        <a  class="<?= $classes;?>"
             href="?action=<?= $id ?>"><?= $data->friendly_name ?></a>
         <?php
     endforeach;
