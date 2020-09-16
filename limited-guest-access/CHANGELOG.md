@@ -1,3 +1,7 @@
+## [0.1.17] - 2020-09-16
+### bugfix
+- inject directory not an array
+
 ## [0.1.16] - 2020-09-16
 ### re-added
 - data directory for style files
