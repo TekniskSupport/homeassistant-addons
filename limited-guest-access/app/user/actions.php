@@ -174,7 +174,7 @@ class Actions {
                     return;
                 }
 
-                return file_get_contents(self::INJECT_DIR . $file);
+                return file_get_contents($injectDirectory . $file);
             }
         }
     }
