@@ -1,3 +1,7 @@
+## [0.1.16] - 2020-09-16
+### re-added
+- data directory for style files
+
 ## [0.1.15] - 2020-09-15
 ### Added
 - device type class to user links

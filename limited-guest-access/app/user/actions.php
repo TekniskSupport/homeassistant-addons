@@ -3,7 +3,7 @@ namespace TekniskSupport\LimitedGuestAccess\User;
 
 class Actions {
     const     DATA_DIR           = '/data/links/';
-    const     INJECT_DIR         = '/share/limited-guest-access/';
+    const     INJECT_DIR         = ['/data/', '/share/limited-guest-access/'];
     const     API_URL            = 'http://supervisor/core/api/';
     public    $passwordProtected = false;
     public    $authenticated     = false;
@@ -167,13 +167,15 @@ class Actions {
 
     public function inject($file)
     {
-        if (file_exists(self::INJECT_DIR . $file)) {
-            if (!preg_match('/^[\w.]+$/', $file)) {
+        foreach (self::INJECT_DIR as $injectDirectory) {
+            if (file_exists($injectDirectory . $file)) {
+                if (!preg_match('/^[\w.]+$/', $file)) {
 
-                return;
+                    return;
+                }
+
+                return file_get_contents(self::INJECT_DIR . $file);
             }
-
-            return file_get_contents(self::INJECT_DIR . $file);
         }
     }
 }
