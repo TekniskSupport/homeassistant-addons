@@ -1,3 +1,7 @@
+## [0.1.18] - 2020-10-28
+### bugfix
+- Fixed permissions to options.json
+
 ## [0.1.17] - 2020-09-16
 ### bugfix
 - inject directory not an array
