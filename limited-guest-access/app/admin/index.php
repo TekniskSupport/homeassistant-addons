@@ -206,8 +206,12 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
                 Object.keys(domain.services).forEach(service => {
                   if (service == service_call[1]) {
                     document.querySelector('#dynamic_fields').innerHTML = '';
+                    domain.services[service].fields = Object.assign({ "entity_id": {
+                        "description": "entity_id",
+                        "example": "switch.your_switch"
+                      }
+                    });
                     Object.keys(domain.services[service].fields).forEach(field => {
-
                       let label = document.createElement("label");
                       label.setAttribute('for', 'dynamic_field' + field);
                       label.innerHTML = field + '<br/><small><i>' +
@@ -234,13 +238,13 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             states.forEach(state => {
               let entity = state.entity_id.split('.');
               if (service_call[0] == entity[0]) {
-                if (typeof document.querySelector("#dynamic_field_entity_id") !== 'undefined') {
+                if (document.querySelector("#dynamic_field_entity_id") !== null) {
                   if (!isReplaced) {
                     let entities = document.querySelector("#dynamic_field_entity_id");
                     let entitiesReplace = document.createElement('select');
-                    if (entities.name) entitiesReplace.name = entities.name;
-                    if (entities.id) entitiesReplace.id = entities.id;
-                    if (entities.className) entitiesReplace.className = entities.className;
+                    if ("name" in entities) entitiesReplace.name = entities.name;
+                    if ("id" in entities) entitiesReplace.id = entities.id;
+                    if ("className" in entities) entitiesReplace.className = entities.className;
                     entities.parentNode.replaceChild(entitiesReplace, entities);
                     isReplaced = true;
                   }
