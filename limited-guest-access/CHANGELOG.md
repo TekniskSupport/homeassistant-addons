@@ -1,3 +1,7 @@
+## [0.1.21] - 2020-10-28
+### bugfix
+- New builds got newer nginx version that broke addon
+
 ## [0.1.18] - 2020-10-28
 ### bugfix
 - Fixed permissions to options.json
