@@ -5,7 +5,7 @@
   "description": "Allow guests to access limited functions",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "boot": "auto",
-  "init": false
+  "init": false,
   "options": {
     "activate_tls": false,
     "external_url": "https://your-external-visitor-url.tld:port/"
