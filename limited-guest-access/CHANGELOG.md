@@ -1,6 +1,10 @@
-## [0.1.21] - 2020-10-28
+## [0.1.23] - 2021-06-23
 ### bugfix
-- New builds got newer nginx version that broke addon
+- Updated to php8
+
+## [0.1.21] - 2021-05-26
+### bugfix
+- Init:false
 
 ## [0.1.18] - 2020-10-28
 ### bugfix
