@@ -4,43 +4,42 @@ FROM $BUILD_FROM
 ENV LANG C.UTF-8
 
 # PHP_INI_DIR to be symmetrical with official php docker image
-ENV PHP_INI_DIR /etc/php/7.3
+ENV PHP_INI_DIR /etc/php/8.1
 
 # Persistent runtime dependencies
 
 RUN apk add --no-cache nginx openrc
 
 RUN apk --update add \
-        php7 \
-        php7-bcmath \
-        php7-dom \
-        php7-ctype \
-        php7-curl \
-        php7-fileinfo \
-        php7-fpm \
-        php7-gd \
-        php7-iconv \
-        php7-intl \
-        php7-json \
-        php7-mbstring \
-        php7-mcrypt \
-        php7-mysqlnd \
-        php7-opcache \
-        php7-openssl \
-        php7-pdo \
-        php7-pdo_mysql \
-        php7-pdo_pgsql \
-        php7-pdo_sqlite \
-        php7-phar \
-        php7-posix \
-        php7-simplexml \
-        php7-session \
-        php7-soap \
-        php7-tokenizer \
-        php7-xml \
-        php7-xmlreader \
-        php7-xmlwriter \
-        php7-zip \
+        php \
+        php-bcmath \
+        php-dom \
+        php-ctype \
+        php-curl \
+        php-fileinfo \
+        php-fpm \
+        php-gd \
+        php-iconv \
+        php-intl \
+        php-json \
+        php-mbstring \
+        php-mysqlnd \
+        php-opcache \
+        php-openssl \
+        php-pdo \
+        php-pdo_mysql \
+        php-pdo_pgsql \
+        php-pdo_sqlite \
+        php-phar \
+        php-posix \
+        php-simplexml \
+        php-session \
+        php-soap \
+        php-tokenizer \
+        php-xml \
+        php-xmlreader \
+        php-xmlwriter \
+        php-zip \
         curl
 
 EXPOSE 8888
