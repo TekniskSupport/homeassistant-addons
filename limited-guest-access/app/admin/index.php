@@ -179,6 +179,11 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         }
       }
 
+      function validateLink() {
+        let e  = document.querySelector('#linkPath');
+        e.value = e.value.replace(/[^-a-z0-9]/ig,'');
+      }
+
       let serviceData = <?= $actions->getServiceData() ?>;
       let states = <?= $actions->getStates() ?>;
       document.addEventListener('DOMContentLoaded', (event) => {
@@ -308,7 +313,8 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 <fieldset>
     <legend>Create advanced link</legend>
     <form action="?action=createNamedLink" method="post">
-        <input type="text" name="linkPath" placeholder="Optional custom path (valid chars 0-9A-z)" />
+        <input  onblur="validateLink();" onChange="validateLink()" id="linkPath" 
+                type="text" name="linkPath" placeholder="Optional custom path (valid chars 0-9A-z)" />
         <select name="theme">
             <option selected="selected" value="default">default - dark</option>
             <option value="light-grey">light - grey</option>
