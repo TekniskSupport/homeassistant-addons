@@ -12,6 +12,7 @@ class Actions
 
     function __construct()
     {
+        date_default_timezone_set($_SERVER["TZ"]);
         if (!file_exists(self::DATA_DIR) || !is_dir(self::DATA_DIR)) {
             mkdir('/data/links');
         }
