@@ -181,7 +181,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 
       function validateLink() {
         let e  = document.querySelector('#linkPath');
-        e.value = e.value.replace(/[^-a-z0-9]/ig,'');
+        e.value = e.value.replace(/[^a-z0-9]/ig,'');
       }
 
       let serviceData = <?= $actions->getServiceData() ?>;
