@@ -1,7 +1,12 @@
+## [0.1.25] - 2022-09-16
+### feature
+- Added friendly name to list of entities
+- methods and variables now have return types declared
+
 ## [0.1.24] - 2022-08-25
 ### bugfix
-- set timezone in admin ui 
-- filter invalid charcters from custom URL 
+- set timezone in admin ui
+- filter invalid charcters from custom URL
 
 ## [0.1.23] - 2021-06-23
 ### bugfix

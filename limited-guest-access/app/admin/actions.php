@@ -4,11 +4,12 @@ namespace TekniskSupport\LimitedGuestAccess\Admin;
 
 class Actions
 {
+
     const API_URL  = 'http://supervisor/core/api/';
     const DATA_DIR = '/data/links/';
     public $externalUrl;
-    protected $allLinks = null;
-    protected $isDirty  = false;
+    protected array|bool|null $allLinks = null;
+    protected bool $isDirty  = false;
 
     function __construct()
     {
@@ -23,16 +24,16 @@ class Actions
         $this->getAllLinks();
     }
 
-    public function getAllLinks()
+    public function getAllLinks(): bool|array
     {
-        if ($this->isDirty || !isset($this->allLinks) || is_null($this->allLinks)) {
+        if ($this->isDirty || !isset($this->allLinks)) {
             $this->allLinks = glob(self::DATA_DIR . '*.json');
         }
 
         return $this->allLinks;
     }
 
-    protected function getId()
+    protected function getId(): string
     {
         if (isset($_REQUEST['id']) && ctype_xdigit($_REQUEST['id']))
             return $_REQUEST['id'];
@@ -43,7 +44,7 @@ class Actions
             throw new \Exception('No ID given!');
     }
 
-    protected function handleRequest()
+    protected function handleRequest(): self
     {
         if (!isset($_GET['action'])) {
 
@@ -79,9 +80,14 @@ class Actions
                 $this->addActionToLink($this->getId(), $_GET['action_id'])->redirect();
                 break;
         }
+
+        return $this;
     }
 
-    protected function addActionToLink($hash, $id = false)
+    protected function addActionToLink(
+        string $hash,
+        int|bool $id = false
+    ): self
     {
         $link    = json_decode(file_get_contents(self::DATA_DIR . $hash . '.json'), true);
         if (!$link) {
@@ -109,7 +115,7 @@ class Actions
         return $this;
     }
 
-    protected function removeAction($hash, $actionId)
+    protected function removeAction(string $hash, string $actionId): self
     {
         $json = json_decode(file_get_contents(self::DATA_DIR . $hash . '.json'),true);
         unset($json[$actionId]);
@@ -120,10 +126,10 @@ class Actions
     }
 
     protected function generateNewLink(
-        $theme = 'default',
-        $linkPath = null,
-        $password = null
-    )
+        string $theme = 'default',
+        ?string $linkPath = null,
+        ?string $password = null
+    ): self
     {
         if (!$linkPath) {
             $hash = $this->generateHash();
@@ -150,7 +156,7 @@ class Actions
         return $this;
     }
 
-    protected function deleteLink($hash)
+    protected function deleteLink(string $hash): self
     {
         if (unlink(self::DATA_DIR . $hash . '.json')) {
             $this->isDirty = true;
@@ -161,14 +167,14 @@ class Actions
         return $this;
     }
 
-    protected function redirect()
+    protected function redirect(): self
     {
         header("Location: ?");
 
         return $this;
     }
 
-    protected function generateHash()
+    protected function generateHash(): string
     {
         $hash = substr(md5(time()), 0, 6);
         if (file_exists(self::DATA_DIR . $hash . '.json')) {
@@ -178,7 +184,7 @@ class Actions
         return $hash;
     }
 
-    public function getServiceData()
+    public function getServiceData(): string|bool
     {
         $ch = curl_init(self::API_URL . 'services');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -190,7 +196,7 @@ class Actions
         return curl_exec($ch);
     }
 
-    public function getStates()
+    public function getStates(): string|bool
     {
         $ch = curl_init(self::API_URL . 'states');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

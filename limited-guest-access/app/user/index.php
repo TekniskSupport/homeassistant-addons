@@ -2,10 +2,6 @@
 include('actions.php');
 $actions = new \TekniskSupport\LimitedGuestAccess\User\Actions;
 switch ($actions->theme) {
-    case 'default':
-        $primaryColor   = 'rgba(11,11,11,1);';
-        $secondaryColor = 'rgba(40,40,40,.5);';
-        break;
     case 'light-grey':
         $primaryColor   = 'rgba(211,211,211,1);';
         $secondaryColor = 'rgba(11,11,11,.5);';
@@ -18,6 +14,7 @@ switch ($actions->theme) {
         $primaryColor   = 'rgba(221,221,221,1);';
         $secondaryColor = 'rgba(11,11,221,.5);';
         break;
+    case 'default':
     default:
         $primaryColor   = 'rgba(11,11,11,1);';
         $secondaryColor = 'rgba(40,40,40,.5);';

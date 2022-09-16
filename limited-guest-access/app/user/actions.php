@@ -5,12 +5,11 @@ class Actions {
     const     DATA_DIR           = '/data/links/';
     const     INJECT_DIR         = ['/data/', '/share/limited-guest-access/'];
     const     API_URL            = 'http://supervisor/core/api/';
-    public    $passwordProtected = false;
-    public    $authenticated     = false;
-    protected $linkData;
-    protected $data;
-    public    $actionName;
-    public    $theme;
+    public    bool $passwordProtected = false;
+    public    bool $authenticated     = false;
+    protected object $linkData;
+    protected object $data;
+    public    string $theme;
 
     public function __construct()
     {
@@ -54,13 +53,13 @@ class Actions {
         }
     }
 
-    public function getAllActions()
+    public function getAllActions(): object
     {
 
         return $this->data;
     }
 
-    public function getFilteredActions()
+    public function getFilteredActions(): object
     {
         $filteredActions = (object)[];
         $allActions = $this->getAllActions();
@@ -77,7 +76,7 @@ class Actions {
         return $filteredActions;
     }
 
-    protected function validateTime($actionData)
+    protected function validateTime(object $actionData): bool
     {
         $now        = time();
         $validFrom  = strtotime($actionData->valid_from);
@@ -95,7 +94,7 @@ class Actions {
         return true;
     }
 
-    protected function invalidateAction($actionData, $actionId)
+    protected function invalidateAction(object $actionData, string $actionId): self
     {
         if ($actionData->one_time_use) {
             $actions = (array)$this->getAllActions();
@@ -106,7 +105,7 @@ class Actions {
         return $this;
     }
 
-    protected function performAction($actionData)
+    protected function performAction(object $actionData): self
     {
         $data           = (object) array_filter((array) $actionData->service_call_data) ?? [];
         $data           = json_encode($data);
@@ -127,7 +126,7 @@ class Actions {
         return $this;
     }
 
-    protected function getLink()
+    protected function getLink(): string
     {
         if (isset($_REQUEST['link']) && ctype_xdigit($_REQUEST['link']))
             return $_REQUEST['link'];
@@ -138,7 +137,7 @@ class Actions {
             throw new \Exception('No ID given!');
     }
 
-    protected function getAction()
+    protected function getAction(): string
     {
         if (isset($_REQUEST['action']))
             return $_REQUEST['action'];
@@ -146,14 +145,14 @@ class Actions {
             throw new \Exception('No action given!');
     }
 
-    protected function redirect($path)
+    protected function redirect(string $path): self
     {
         header("Location: ". $path);
 
         return $this;
     }
 
-    public function getState($entityId)
+    public function getState(string $entityId): bool|string
     {
         $ch = curl_init(self::API_URL . 'states/'. $entityId);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -165,17 +164,18 @@ class Actions {
         return curl_exec($ch);
     }
 
-    public function inject($file)
+    public function inject($file): ?string
     {
         foreach (self::INJECT_DIR as $injectDirectory) {
             if (file_exists($injectDirectory . $file)) {
                 if (!preg_match('/^[\w.]+$/', $file)) {
-
-                    return;
+                    break;
                 }
 
                 return file_get_contents($injectDirectory . $file);
             }
         }
+
+        return null;
     }
 }

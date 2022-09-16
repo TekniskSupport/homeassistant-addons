@@ -257,7 +257,11 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
                   let option = document.createElement('option');
                   let newEntities = document.querySelector("#dynamic_field_entity_id");
                   option.value = state.entity_id;
-                  option.text = option.value;
+                  if (typeof state.attributes.friendly_name !== 'undefined') {
+                    option.text = state.attributes.friendly_name + ' (' + option.value + ')';
+                  } else{
+                    option.text = option.value;
+                  }
                   newEntities.appendChild(option);
                 }
               }
