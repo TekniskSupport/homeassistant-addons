@@ -8,8 +8,8 @@ class Actions {
     public    bool $passwordProtected = false;
     public    bool $authenticated     = false;
     protected object $linkData;
-    protected object $data;
-    public    string $theme;
+    protected ?object $data;
+    public    ?string $theme = null;
 
     public function __construct()
     {
@@ -48,6 +48,7 @@ class Actions {
 
             $this
                 ->performAction($actionData)
+                ->addLog($this->getAction())
                 ->invalidateAction($actionData, $this->getAction())
                 ->redirect('?performedAction='. urlencode($actionData->friendly_name));
         }
@@ -94,6 +95,16 @@ class Actions {
         return true;
     }
 
+    protected function addLog(string $actionId): self
+    {
+        $time = new \DateTime();
+        $actions = $this->getAllActions();
+        $actions->$actionId->{'last_used'}[] = $time->format('U');
+        file_put_contents(self::DATA_DIR . $this->getLink() . '.json', json_encode($actions));
+
+        return $this;
+    }
+
     protected function invalidateAction(object $actionData, string $actionId): self
     {
         if ($actionData->one_time_use) {
@@ -118,7 +129,7 @@ class Actions {
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
                            "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}",
                            'Content-Type: application/json',
-                           'Content-Length: ' . strlen($data)
+                           'Content-Length: ' . mb_strlen($data)
                        ]
         );
         curl_exec($ch);

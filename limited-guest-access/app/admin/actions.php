@@ -176,7 +176,7 @@ class Actions
 
     protected function generateHash(): string
     {
-        $hash = substr(md5(time()), 0, 6);
+        $hash = mb_substr(md5(time()), 0, 6);
         if (file_exists(self::DATA_DIR . $hash . '.json')) {
             $hash = $this->generateHash();
         }
