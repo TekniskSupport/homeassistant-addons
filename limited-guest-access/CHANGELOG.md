@@ -1,3 +1,8 @@
+## [0.1.26] - 2022-09-16
+### feature
+- Added usage log
+- fixed bug in user view 
+
 ## [0.1.25] - 2022-09-16
 ### feature
 - Added friendly name to list of entities
