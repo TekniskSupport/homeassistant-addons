@@ -86,14 +86,14 @@ class Actions
 
     protected function addActionToLink(
         string $hash,
-        int|bool $id = false
+        ?string $id = null
     ): self
     {
         $link    = json_decode(file_get_contents(self::DATA_DIR . $hash . '.json'), true);
         if (!$link) {
             $link = [];
         }
-        $id = ($id) ? $id : uniqid();
+        $id = $id ?? uniqid();
         $newData[$id] = [
             'friendly_name'   => $_POST['friendly_name'],
             'service_call'    => $_POST['service_call'],

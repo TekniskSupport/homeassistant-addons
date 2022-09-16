@@ -1,3 +1,7 @@
+## [0.1.27] - 2022-09-16
+### bugfix
+- Changing link no longer creates duplicate
+
 ## [0.1.26] - 2022-09-16
 ### feature
 - Added usage log
