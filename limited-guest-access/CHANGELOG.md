@@ -57,7 +57,7 @@
 ### Fixes
 - Fixed typos
 
-##[0.1.10] - 2020-09-10
+## [0.1.10] - 2020-09-10
 ### Added
 - Optional password to link
 - Custom link path
