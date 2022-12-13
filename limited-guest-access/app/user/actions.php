@@ -29,7 +29,7 @@ class Actions {
             if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
                 $this->passwordProtected = true;
                 session_start();
-                if ($_SESSION['authenticated'] === true) {
+                if ($_SESSION['authenticated'] ?? false === true) {
                     $this->authenticated = true;
                 }
                 if (isset($_POST['password']) && password_verify($_POST['password'], $this->data->linkData->password)) {
