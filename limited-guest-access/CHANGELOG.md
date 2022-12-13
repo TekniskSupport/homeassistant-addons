@@ -1,3 +1,7 @@
+## [0.1.28] - 2022-12-13
+### bugfix
+- Fixes "array key not found"
+
 ## [0.1.27] - 2022-09-16
 ### bugfix
 - Changing link no longer creates duplicate
