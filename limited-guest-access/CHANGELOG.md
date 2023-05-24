@@ -1,3 +1,7 @@
+## [0.1.31] - 2023-05-24
+### bugfix
+- fixed typo in config folder
+
 ## [0.1.30] - 2023-05-24
 ### bugfix
 - New php 8.1 config folder
