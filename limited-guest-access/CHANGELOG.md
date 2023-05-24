@@ -1,3 +1,7 @@
+## [0.1.29] - 2023-05-24
+### bugfix
+- New php binary name
+
 ## [0.1.28] - 2022-12-13
 ### bugfix
 - Fixes "array key not found"
