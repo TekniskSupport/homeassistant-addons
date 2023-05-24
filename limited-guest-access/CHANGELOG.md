@@ -1,3 +1,7 @@
+## [0.1.30] - 2023-05-24
+### bugfix
+- New php 8.1 config folder
+
 ## [0.1.29] - 2023-05-24
 ### bugfix
 - New php binary name
