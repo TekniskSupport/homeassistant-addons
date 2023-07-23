@@ -1,5 +1,8 @@
 #!/usr/bin/with-contenv bashio
 chmod 777 /data/
+mkdir -p /data/links
+chmod -R 666 /data/links
+chmod 777 /data/links
 chmod 644 /data/options.json
 is_ssl_active=$(cat /data/options.json |jq .activate_tls)
 if [ $is_ssl_active = true ]; then
