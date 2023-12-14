@@ -12,7 +12,7 @@ if [ $is_ssl_active = true ]; then
 fi;
 
 if ! pgrep "nginx" > /dev/null; then
-    nginx && php-fpm81
+    nginx && php-fpm82
 fi
 
 while true; do sleep 1000; done
