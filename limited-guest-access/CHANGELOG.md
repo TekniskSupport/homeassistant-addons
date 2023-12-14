@@ -1,3 +1,7 @@
+## [0.1.32] - 2023-12-14
+### bugfix
+- upgraded to php8.2
+
 ## [0.1.31] - 2023-05-24
 ### bugfix
 - fixed typo in config folder
