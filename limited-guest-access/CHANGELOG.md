@@ -1,3 +1,7 @@
+## [0.1.33] - 2024-03-28
+### bugfix
+- Fixed security issue, where a user could get access to a link not authenticated to, if authenticated to another link
+
 ## [0.1.32] - 2023-12-14
 ### bugfix
 - upgraded to php8.2
