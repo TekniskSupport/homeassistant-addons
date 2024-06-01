@@ -4,7 +4,7 @@ FROM $BUILD_FROM
 ENV LANG C.UTF-8
 
 # PHP_INI_DIR to be symmetrical with official php docker image
-ENV PHP_INI_DIR /etc/php/8.2
+ENV PHP_INI_DIR /etc/php/8.3
 
 # Persistent runtime dependencies
 
@@ -48,7 +48,7 @@ EXPOSE 8899
 COPY run.sh /
 COPY tls.conf /etc/nginx/snippets/
 COPY default.conf /etc/nginx/http.d/
-COPY www.conf /etc/php82/php-fpm.d/
+COPY www.conf /etc/php83/php-fpm.d/
 COPY app/admin/ /var/www/admin/
 COPY app/user/ /var/www/user/
 RUN chmod a+x /run.sh
