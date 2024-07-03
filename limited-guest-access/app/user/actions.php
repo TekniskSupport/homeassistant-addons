@@ -143,7 +143,7 @@ class Actions {
         if (isset($_REQUEST['link']) && ctype_xdigit($_REQUEST['link']))
             return $_REQUEST['link'];
         elseif (isset($_REQUEST['link'])
-                && preg_match('/^([a-zA-Z0-9]+)$/', $_REQUEST['link']))
+                && preg_match('/^([a-zA-Z0-9_-]+)$/', $_REQUEST['link']))
             return $_REQUEST['link'];
         else
             throw new \Exception('No ID given!');
