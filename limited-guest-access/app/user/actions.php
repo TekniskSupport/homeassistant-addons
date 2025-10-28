@@ -29,26 +29,8 @@ class Actions {
             $linkHash = sha1($this->getLink());
             if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
                 $this->passwordProtected = true;
-                session_set_cookie_params([
-                    'lifetime' => 0,
-                    'path' => '/',
-                    'domain' => '',
-                    'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
-                    'httponly' => true,
-                    'samesite' => 'Lax'
-                ]);
-                session_start();
-
-                $linkHash = sha1($this->getLink());
-                $sessionKey = 'authenticated_'.$linkHash;
-
-                if (isset($_SESSION[$sessionKey]) && $_SESSION[$sessionKey] === true) {
-                    $this->authenticated = true;
-                }
                 if (isset($_POST['password']) && password_verify($_POST['password'], $this->data->linkData->password)) {
                     $this->authenticated = true;
-                    $_SESSION[$sessionKey] = true;
-                    session_regenerate_id(true);
                 }
             }
         }
