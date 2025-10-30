@@ -311,11 +311,14 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
     </script>
 </head>
 <body role="document">
-<a class="createNewLink" href="?action=generateNewLink">Create link</a><br/>
+<?php if (isset($_GET['page']) && $_GET['page'] === 'style'): ?>
+    <?php include 'style.php'; ?>
+<?php else: ?>
+<a class="createNewLink" href="?action=generateNewLink">Create link</a>
+<a class="createNewLink" href="?action=manageStyle">Manage Custom CSS</a><br/>
 <br/>
-<input type="checkbox" id="customLink">&nbsp;<label for="customLink">Custom link</label>
 <fieldset>
-    <legend>Create advanced link</legend>
+    <legend>Create Link</legend>
     <form action="?action=createNamedLink" method="post">
         <input  onblur="validateLink();" onChange="validateLink()" id="linkPath" 
                 type="text" name="linkPath" placeholder="Optional custom path (valid chars 0-9A-z)" />
@@ -326,7 +329,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             <option value="light-blue">light - blue</option>
         </select>
         <input type="password" name="password" placeholder="Optional password (max 72 chars)" maxlength="72" />
-        <input type="submit" />
+        <input type="submit" value="Create Link" />
     </form>
 </fieldset>
 <br/><br/>
@@ -544,5 +547,6 @@ foreach($actions->getAllLinks() as $link) :
         </div>
     </div>
 <?php endforeach; ?>
+<?php endif; ?>
 </body>
 </html>

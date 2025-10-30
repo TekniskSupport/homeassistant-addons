@@ -14,44 +14,70 @@ class Actions {
 
     public function __construct()
     {
+        $this->boot();
+    }
+
+    protected function boot(): void
+    {
         date_default_timezone_set($_SERVER["TZ"]);
-        if (!file_exists(self::DATA_DIR . $this->getLink() . '.json')) {
+        
+        // Load and validate link data
+        $this->loadLinkData();
+        
+        // Handle authentication
+        $this->handleAuthentication();
+        
+        // Handle actions if present
+        $this->handleAction();
+    }
+
+    protected function loadLinkData(): void
+    {
+        $link = $this->getLink();
+        $filePath = self::DATA_DIR . $link . '.json';
+        
+        if (!file_exists($filePath)) {
             http_response_code(401);
             throw new \Exception('Not allowed');
-        } else {
-            $this->data = json_decode(
-                file_get_contents(self::DATA_DIR . $this->getLink() . '.json')
-            );
+        }
+        
+        $this->data = json_decode(file_get_contents($filePath));
+        
+        if (isset($this->data->linkData->theme)) {
+            $this->theme = $this->data->linkData->theme;
+        }
+    }
 
-            if (isset($this->data->linkData->theme)) {
-                $this->theme = $this->data->linkData->theme;
-            }
-
-            $linkHash = sha1($this->getLink());
-            if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
-                $this->passwordProtected = true;
-                if (isset($_POST['password'])) {
-                    if (password_verify($_POST['password'], $this->data->linkData->password)) {
-                        $this->authenticated = true;
-                    } else {
-                        $this->authFailed = true;
-                    }
+    protected function handleAuthentication(): void
+    {
+        if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
+            $this->passwordProtected = true;
+            
+            if (isset($_POST['password'])) {
+                if (password_verify($_POST['password'], $this->data->linkData->password)) {
+                    $this->authenticated = true;
+                } else {
+                    $this->authFailed = true;
                 }
             }
         }
+    }
 
+    protected function handleAction(): void
+    {
         if (isset($_GET['action'])) {
             $availableActions = $this->getFilteredActions();
-            $actionData       = $availableActions->{$this->getAction()};
+            $actionData = $availableActions->{$this->getAction()} ?? null;
+            
             if (!$actionData) {
-                throw new \Exception('unknown action');
+                throw new \Exception('Unknown action');
             }
 
             $this
                 ->performAction($actionData)
                 ->addLog($this->getAction())
                 ->invalidateAction($actionData, $this->getAction())
-                ->redirect('?performedAction='. urlencode($actionData->friendly_name));
+                ->redirect('?performedAction=' . urlencode($actionData->friendly_name));
         }
     }
 
@@ -100,7 +126,10 @@ class Actions {
     {
         $time = new \DateTime();
         $actions = $this->getAllActions();
-        $actions->$actionId->{'last_used'}[] = $time->format('U');
+        if (!isset($actions->$actionId->last_used)) {
+            $actions->$actionId->last_used = [];
+        }
+        $actions->$actionId->last_used[] = $time->format('U');
         file_put_contents(self::DATA_DIR . $this->getLink() . '.json', json_encode($actions));
 
         return $this;
@@ -119,42 +148,50 @@ class Actions {
 
     protected function performAction(object $actionData): self
     {
-        $data           = (object) array_filter((array) $actionData->service_call_data) ?? [];
-        $data           = json_encode($data);
-        $serviceCall    = explode('.',$actionData->service_call);
+        $data = (object) array_filter((array) $actionData->service_call_data) ?? [];
+        $data = json_encode($data);
+        $serviceCall = explode('.', $actionData->service_call);
 
-        $ch = curl_init(self::API_URL . 'services/' . $serviceCall[0]. '/'. $serviceCall[1]);
+        $ch = curl_init(self::API_URL . 'services/' . $serviceCall[0] . '/' . $serviceCall[1]);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                           "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}",
-                           'Content-Type: application/json',
-                           'Content-Length: ' . mb_strlen($data)
-                       ]
-        );
-        curl_exec($ch);
+            "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}",
+            'Content-Type: application/json',
+            'Content-Length: ' . mb_strlen($data)
+        ]);
+        
+        $response = curl_exec($ch);
+        curl_close($ch);
 
         return $this;
     }
 
     protected function getLink(): string
     {
-        if (isset($_REQUEST['link']) && ctype_xdigit($_REQUEST['link']))
-            return $_REQUEST['link'];
-        elseif (isset($_REQUEST['link'])
-                && preg_match('/^([a-zA-Z0-9_-]+)$/', $_REQUEST['link']))
-            return $_REQUEST['link'];
-        else
+        $link = filter_input(INPUT_GET, 'link', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ($link === null) {
+            $link = filter_input(INPUT_POST, 'link', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        }
+        
+        if ($link && ctype_xdigit($link)) {
+            return $link;
+        } elseif ($link && preg_match('/^([a-zA-Z0-9_-]+)$/', $link)) {
+            return $link;
+        } else {
             throw new \Exception('No ID given!');
+        }
     }
 
     protected function getAction(): string
     {
-        if (isset($_REQUEST['action']))
-            return $_REQUEST['action'];
-        else
+        $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if ($action) {
+            return $action;
+        } else {
             throw new \Exception('No action given!');
+        }
     }
 
     protected function redirect(string $path): self
@@ -169,11 +206,13 @@ class Actions {
         $ch = curl_init(self::API_URL . 'states/'. $entityId);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                           "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}"
-                       ]
-        );
+            "Authorization: Bearer {$_SERVER['SUPERVISOR_TOKEN']}"
+        ]);
 
-        return curl_exec($ch);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        return $response;
     }
 
     public function inject($file): ?string
@@ -188,6 +227,16 @@ class Actions {
             }
         }
 
+        return null;
+    }
+
+    public function getCustomCss(): ?string
+    {
+        $cssFile = '/data/style.css';
+        if (file_exists($cssFile)) {
+            return file_get_contents($cssFile);
+        }
+        
         return null;
     }
 }

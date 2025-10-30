@@ -122,6 +122,13 @@ switch ($actions->theme) {
             transition-duration:0.3s;
         }
     </style>
+    <?php 
+    $customCss = $actions->getCustomCss();
+    if ($customCss): ?>
+        <style type="text/css">
+            <?= $customCss ?>
+        </style>
+    <?php endif; ?>
     <?=  $actions->inject('style.css') ; ?>
     <?=  $actions->inject('script.js') ; ?>
 </head>
