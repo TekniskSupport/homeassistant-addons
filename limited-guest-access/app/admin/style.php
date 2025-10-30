@@ -8,6 +8,12 @@ $cssFile = '/data/style.css';
 if (file_exists($cssFile)) {
     $cssContent = file_get_contents($cssFile);
 }
+
+$footerContent = '';
+$footerFile = '/data/footer.htm';
+if (file_exists($footerFile)) {
+    $footerContent = file_get_contents($footerFile);
+}
 ?><!DOCTYPE>
 <html>
 <head>
@@ -136,7 +142,8 @@ if (file_exists($cssFile)) {
     
     <div class="form-container">
         <form action="?action=saveStyle" method="post">
-            <textarea name="custom_css" placeholder="/* Enter your custom CSS here */
+            <label for="custom_css">Custom CSS:</label>
+            <textarea id="custom_css" name="custom_css" placeholder="/* Enter your custom CSS here */
 body {
     background-color: #f0f0f0;
 }
@@ -145,7 +152,10 @@ a {
     color: #007bff;
 }"><?= htmlspecialchars($cssContent) ?></textarea>
             <br/>
-            <input type="submit" value="Save CSS" />
+            <label for="custom_footer">Custom Footer HTML:</label>
+            <textarea id="custom_footer" name="custom_footer" placeholder="<!-- Enter your custom footer HTML here -->"><?= htmlspecialchars($footerContent) ?></textarea>
+            <br/>
+            <input type="submit" value="Save Configuration" />
         </form>
     </div>
 </body>

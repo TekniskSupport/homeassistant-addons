@@ -276,8 +276,15 @@ class Actions
     {
         $customCss = filter_input(INPUT_POST, 'custom_css', FILTER_UNSAFE_RAW);
         
+        $customCss = filter_input(INPUT_POST, 'custom_css', FILTER_UNSAFE_RAW);
+        $customFooter = filter_input(INPUT_POST, 'custom_footer', FILTER_UNSAFE_RAW);
+        
         if ($customCss !== null) {
             file_put_contents('/data/style.css', $customCss);
+        }
+
+        if ($customFooter !== null) {
+            file_put_contents('/data/footer.htm', $customFooter);
         }
 
         return $this;
