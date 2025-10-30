@@ -34,11 +34,15 @@ class Actions {
     protected function loadLinkData(): void
     {
         $link = $this->getLink();
+        
+        if ($link === null) {
+            $this->displayError("No link ID was provided. Please make sure you are accessing a valid link.");
+        }
+
         $filePath = self::DATA_DIR . $link . '.json';
         
         if (!file_exists($filePath)) {
-            http_response_code(401);
-            throw new \Exception('Not allowed');
+            $this->displayError("The requested link does not exist or is not authorized.");
         }
         
         $this->data = json_decode(file_get_contents($filePath));
@@ -46,6 +50,13 @@ class Actions {
         if (isset($this->data->linkData->theme)) {
             $this->theme = $this->data->linkData->theme;
         }
+    }
+
+    protected function displayError(string $message): void
+    {
+        http_response_code(401);
+        echo "<!DOCTYPE html><html><head><title>Error</title></head><body><h1>Error</h1><p>{$message}</p></body></html>";
+        exit;
     }
 
     protected function handleAuthentication(): void
@@ -168,7 +179,7 @@ class Actions {
         return $this;
     }
 
-    protected function getLink(): string
+    protected function getLink(): ?string
     {
         $link = filter_input(INPUT_GET, 'link', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ($link === null) {
@@ -180,7 +191,7 @@ class Actions {
         } elseif ($link && preg_match('/^([a-zA-Z0-9_-]+)$/', $link)) {
             return $link;
         } else {
-            throw new \Exception('No ID given!');
+            return null; // Return null instead of throwing an exception
         }
     }
 
@@ -215,7 +226,33 @@ class Actions {
         return $response;
     }
 
-    public function inject($file): ?string
+    public function injectHeader(): ?string
+    {
+        $headerFile = '/data/header.htm';
+        if (file_exists($headerFile)) {
+            return file_get_contents($headerFile);
+        }
+        $headerFile = '/share/limited-guest-access/header.htm';
+        if (file_exists($headerFile)) {
+            return file_get_contents($headerFile);
+        }
+        return null;
+    }
+
+    public function injectFooter(): ?string
+    {
+        $footerFile = '/data/footer.htm';
+        if (file_exists($footerFile)) {
+            return file_get_contents($footerFile);
+        }
+        $footerFile = '/share/limited-guest-access/footer.htm';
+        if (file_exists($footerFile)) {
+            return file_get_contents($footerFile);
+        }
+        return null;
+    }
+
+    public function injectFile(string $file): ?string
     {
         foreach (self::INJECT_DIR as $injectDirectory) {
             if (file_exists($injectDirectory . $file)) {
@@ -226,7 +263,6 @@ class Actions {
                 return file_get_contents($injectDirectory . $file);
             }
         }
-
         return null;
     }
 

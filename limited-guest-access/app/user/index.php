@@ -129,11 +129,20 @@ switch ($actions->theme) {
             <?= $customCss ?>
         </style>
     <?php endif; ?>
-    <?=  $actions->inject('style.css') ; ?>
-    <?=  $actions->inject('script.js') ; ?>
+    <?php
+    $injectedStyles = $actions->injectFile('style.css');
+    if ($injectedStyles) {
+        echo "<style type=\"text/css\">{$injectedStyles}</style>";
+    }
+    $injectedScripts = $actions->injectFile('script.js');
+    if ($injectedScripts) {
+        echo "<script type=\"text/javascript\">{$injectedScripts}</script>";
+    }
+    ?>
 </head>
 <body role="document">
-<?=  $actions->inject('header.htm') ; ?>
+<?php echo $actions->injectHeader(); ?>
+
 <?php
 if ($actions->passwordProtected && !$actions->authenticated) :?>
     <div style="text-align: center; margin-top: 20%">
@@ -183,6 +192,6 @@ else:
     endforeach;
 endif;
 ?>
-<?=  $actions->inject('footer.htm') ; ?>
+<?php echo $actions->injectFooter(); ?>
 </body>
 </html>
