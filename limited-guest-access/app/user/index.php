@@ -130,7 +130,12 @@ switch ($actions->theme) {
 <?php
 if ($actions->passwordProtected && !$actions->authenticated) :?>
     <div style="text-align: center; margin-top: 20%">
-        <form action='?auth' method="post">
+        <?php if ($actions->authFailed): ?>
+            <div style="color: red; margin-bottom: 10px; font-weight: bold;">
+                Wrong password. Please try again.
+            </div>
+        <?php endif; ?>
+        <form action='?' method="post">
             <input name='password' type="password" placeholder="password">
             <input type="submit" />
         </form>

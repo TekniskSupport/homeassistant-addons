@@ -7,6 +7,7 @@ class Actions {
     const     API_URL            = 'http://supervisor/core/api/';
     public    bool $passwordProtected = false;
     public    bool $authenticated     = false;
+    public    bool $authFailed        = false;
     protected object $linkData;
     protected ?object $data;
     public    ?string $theme = null;
@@ -29,8 +30,12 @@ class Actions {
             $linkHash = sha1($this->getLink());
             if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
                 $this->passwordProtected = true;
-                if (isset($_POST['password']) && password_verify($_POST['password'], $this->data->linkData->password)) {
-                    $this->authenticated = true;
+                if (isset($_POST['password'])) {
+                    if (password_verify($_POST['password'], $this->data->linkData->password)) {
+                        $this->authenticated = true;
+                    } else {
+                        $this->authFailed = true;
+                    }
                 }
             }
         }
