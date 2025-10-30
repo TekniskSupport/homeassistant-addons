@@ -311,9 +311,11 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
     </script>
 </head>
 <body role="document">
-<?php if (isset($_GET['page']) && $_GET['page'] === 'style'): ?>
-    <?php include 'style.php'; ?>
-<?php else: ?>
+<?php
+if (isset($_GET['page']) && $_GET['page'] === 'style'):
+    include_once 'style.php';
+else:
+?>
 <a class="createNewLink" href="?action=generateNewLink">Create link</a>
 <a class="createNewLink" href="?action=manageStyle">Manage Custom CSS</a><br/>
 <br/>
@@ -513,7 +515,7 @@ foreach($actions->getAllLinks() as $link) :
         <div class="column">
             <ul>
                 <?php
-                if (!is_null($data)) {
+                if (!is_null($data)):
                     foreach($data as $action => $entry):
                     $lastUsed = $entry->last_used ?? [];
                 ?>
@@ -532,6 +534,8 @@ foreach($actions->getAllLinks() as $link) :
                             <?= 'Times used: '. count($lastUsed); ?><br/>
                             <?= 'last used: '. date('Y-m-d H:i:s', end($lastUsed)); ?>
                         </li>
+                    <?php endforeach; // for ($data as $action => $entry) ?>
+                <?php endif; // for if (!is_null($data)) ?>
             </ul>
             <!-- Modify Password Form -->
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ccc;">
@@ -542,6 +546,7 @@ foreach($actions->getAllLinks() as $link) :
             </div>
         </div>
     </div>
-<?php endforeach; ?>
+<?php endforeach; // for ($actions->getAllLinks() as $link) ?>
+<?php endif; // for if (isset($_GET['page']) && $_GET['page'] === 'style') ?>
 </body>
 </html>
