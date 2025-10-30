@@ -57,7 +57,7 @@ class Actions
                           ? $_REQUEST['linkPath']
                           : $this->generateHash();
                 $password = !empty($_REQUEST['password'])
-                          ? password_hash($_REQUEST['password'], CRYPT_BLOWFISH)
+                          ? password_hash($_REQUEST['password'], PASSWORD_DEFAULT)
                           : null;
                 $theme    = $_REQUEST['theme'];
 
@@ -78,6 +78,9 @@ class Actions
                 break;
             case 'editAction':
                 $this->addActionToLink($this->getId(), $_GET['action_id'])->redirect();
+                break;
+            case 'modifyPassword':
+                $this->modifyPassword($this->getId())->redirect();
                 break;
         }
 
@@ -162,6 +165,17 @@ class Actions
             $this->isDirty = true;
         } else {
             throw new \Exception('Unable to delete file');
+        }
+
+        return $this;
+    }
+
+    protected function modifyPassword(string $hash): self
+    {
+        if (!empty($_POST['new_password'])) {
+            $linkData = json_decode(file_get_contents(self::DATA_DIR . $hash . '.json'), true);
+            $linkData['linkData']['password'] = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
+            file_put_contents(self::DATA_DIR . $hash . '.json', json_encode($linkData));
         }
 
         return $this;

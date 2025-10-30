@@ -325,7 +325,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             <option value="dark-blue">dark - blue</option>
             <option value="light-blue">light - blue</option>
         </select>
-        <input type="password" name="password" placeholder="Optional password" />
+        <input type="password" name="password" placeholder="Optional password (max 72 chars)" maxlength="72" />
         <input type="submit" />
     </form>
 </fieldset>
@@ -534,6 +534,13 @@ foreach($actions->getAllLinks() as $link) :
                 }
                 ?>
             </ul>
+            <!-- Modify Password Form -->
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ccc;">
+                <form action="?action=modifyPassword&id=<?= $link ?>" method="post" style="display: inline-block;">
+                    <input type="password" name="new_password" placeholder="New password" maxlength="72" required style="width: 150px; padding: 5px; margin-right: 5px;" />
+                    <input type="submit" value="Change Password" style="padding: 5px 10px; font-size: 12px;" />
+                </form>
+            </div>
         </div>
     </div>
 <?php endforeach; ?>
