@@ -1,5 +1,5 @@
 <?php
-include 'actions.php';
+include_once 'actions.php';
 $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 ?><!DOCTYPE>
 <html>
@@ -532,10 +532,6 @@ foreach($actions->getAllLinks() as $link) :
                             <?= 'Times used: '. count($lastUsed); ?><br/>
                             <?= 'last used: '. date('Y-m-d H:i:s', end($lastUsed)); ?>
                         </li>
-<?php
-include_once 'actions.php';
-$actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
-?>
             </ul>
             <!-- Modify Password Form -->
             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ccc;">
@@ -547,6 +543,5 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         </div>
     </div>
 <?php endforeach; ?>
-<?php endif; ?>
 </body>
 </html>
