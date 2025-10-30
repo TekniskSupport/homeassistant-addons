@@ -129,16 +129,6 @@ switch ($actions->theme) {
             <?= $customCss ?>
         </style>
     <?php endif; ?>
-    <?php
-    $injectedStyles = $actions->injectFile('style.css');
-    if ($injectedStyles) {
-        echo "<style type=\"text/css\">{$injectedStyles}</style>";
-    }
-    $injectedScripts = $actions->injectFile('script.js');
-    if ($injectedScripts) {
-        echo "<script type=\"text/javascript\">{$injectedScripts}</script>";
-    }
-    ?>
 </head>
 <body role="document">
 <?php echo $actions->injectHeader(); ?>
@@ -193,5 +183,12 @@ else:
 endif;
 ?>
 <?php echo $actions->injectFooter(); ?>
+<?php 
+    $customJs = $actions->getCustomJs();
+    if ($customJs): ?>
+        <script type="text/javascript">
+            <?= $customJs ?>
+        </script>
+    <?php endif; ?>
 </body>
 </html>

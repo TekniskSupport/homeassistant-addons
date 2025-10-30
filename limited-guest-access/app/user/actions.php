@@ -252,27 +252,34 @@ class Actions {
         return null;
     }
 
-    public function injectFile(string $file): ?string
-    {
-        foreach (self::INJECT_DIR as $injectDirectory) {
-            if (file_exists($injectDirectory . $file)) {
-                if (!preg_match('/^[\w.]+$/', $file)) {
-                    break;
-                }
-
-                return file_get_contents($injectDirectory . $file);
-            }
-        }
-        return null;
-    }
-
     public function getCustomCss(): ?string
     {
+        // Try to load custom CSS from /data/style.css first (UI-managed)
         $cssFile = '/data/style.css';
         if (file_exists($cssFile)) {
             return file_get_contents($cssFile);
         }
         
+        // If not found in /data/, try to load from /share/limited-guest-access/style.css (legacy file-based)
+        $legacyCssFile = '/share/limited-guest-access/style.css';
+        if (file_exists($legacyCssFile)) {
+            return file_get_contents($legacyCssFile);
+        }
+        
+        return null;
+    }
+
+    public function getCustomJs(): ?string
+    {
+        $jsFile = '/data/script.js';
+        if (file_exists($jsFile)) {
+            return file_get_contents($jsFile);
+        }
+
+        $legacyJsFile = '/share/limited-guest-access/script.js';
+        if (file_exists($legacyJsFile)) {
+            return file_get_contents($legacyJsFile);
+        }
         return null;
     }
 }
