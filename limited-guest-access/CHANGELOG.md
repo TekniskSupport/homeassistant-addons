@@ -1,3 +1,12 @@
+## [0.1.35] - 2024-10-30
+### Feature
+- Complete redesign of the admin UI to match the look and feel of Home Assistant.
+- Centralized UI for managing custom CSS and footer HTML directly from the admin panel.
+- Simplified link creation process by removing the redundant top button.
+### Bugfix
+- Resolved a critical issue causing duplicated headers and footers on user-facing pages.
+- Corrected various PHP errors, including class redeclaration and syntax issues.
+
 ## [0.1.33] - 2024-03-28
 ### bugfix
 - Fixed security issue, where a user could get access to a link not authenticated to, if authenticated to another link

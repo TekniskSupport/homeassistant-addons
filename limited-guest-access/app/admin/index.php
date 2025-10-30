@@ -1,159 +1,262 @@
 <?php
 include_once 'actions.php';
 $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
-?><!DOCTYPE>
+?><!DOCTYPE html>
 <html>
 <head>
     <title>Limited User Access Admin</title>
     <meta charset="utf-8"/>
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8;'/>
     <style type="text/css">
-        @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-
-        * {
-            font-family: "Open Sans", verdana, arial, sans-serif;
-        }
-
+        /* Basic Reset & Body Styling for HA consistency */
         body {
-            height: 100%;
-            background-color: white;
-        }
-
-        h1 {
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        svg {
-            margin-bottom: -7px;
-        }
-
-        input, textarea, select {
-            width: 70%;
-            background:transparent;
-            margin: 5px 0px;
-            padding: 1%;
-            border: 2px solid #1a1a1a;
-            transition-duration:0.5s;
-        }
-        input[type='date'], input[type='time'] {
-            width: 30%;
-        }
-        input[type='date'] + input[type='time'] {
-            margin-left: -5px;
-        }
-        input[type='submit'] {
-            color: #fff;
-            background-color: #1a1a1a;
-            border: 2px solid #1a1a1a;
-            transition-duration:0.3s;
-        }
-        input[type='submit']:hover {
-            color: #000;
-            background:transparent;
-            transition-duration:0.3s;
-        }
-
-        input:focus, textarea:focus {
-            border-left:10px solid #1a1a1a;
-            transition-duration:0.5s;
-        }
-
-        input.copylink {
-            line-height: 30px;
-        }
-
-        .createNewLink {
-            font-size: 22px;
-            padding: .5rem 1rem;
-            border: 1px solid #1a1a1a;
-            background-color: whitesmoke;
-            min-width: 25%;
-            border-radius: 3px;
-            display: inline-block;
-            color: #1a1a1a;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        a.link,
-        a.link:link,
-        a.link:visited,
-        a.link:active {
-            margin: .5rem;
-            padding: .5rem 1rem;
-            position:relative;
-            border: 1px solid #1a1a1a;
-            border-radius: 3px;
-            color: #1a1a1a;
-            text-decoration: none;
-        }
-        a:hover {
-            background-color: white;
-        }
-
-        .row:nth-child(odd) {
-            background-color: whitesmoke;
-        }
-        .row {
-            padding-left: 2rem;
-        }
-
-        .column {
-            padding: 1rem 0;
-        }
-        @media only screen and (min-width: 800px) {
-            .row {
-                display: flex;
-            }
-
-            .column {
-                flex: 1;
-            }
-
-            a, a:link, a:visited, a:active {
-                bottom: -.8rem;
-            }
-        }
-
-        @media only screen and (max-width: 799px) {
-            .row {
-                display: block;
-            }
-
-            .column {
-                display: inline-block
-            }
-        }
-
-        ul {
-            list-style: none;
-            text-align: left;
             margin: 0;
-            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            background-color: rgb(28, 28, 28);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        a.link.noBorder,
-        a.link.noBorder:link,
-        a.link.noBorder:visited,
-        a.link.noBorder:hover,
-        a.link.noBorder:active
-        {
-            border: none;
-            margin: 0;
-            padding: 0 0;
-            position: initial;
+        /* General Typography */
+        h1, h2, h3, h4, h5, h6 {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 24px;
         }
 
-        #customLink {
-            width: initial;
-        }
-        #customLink + label + fieldset {
-            display: none;
+        /* Card Styling to mimic HA UI */
+        .card {
+            background-color: rgb(48, 48, 48);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            margin-bottom: 20px;
         }
 
-        #customLink:checked + label + fieldset {
+        .card-header {
+            font-size: 1.25em;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+        }
+
+        /* Form Elements */
+        label {
             display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+        }
+
+        input[type='text'],
+        input[type='password'],
+        input[type='date'],
+        input[type='time'],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            border: 1px solid rgb(58, 58, 58);
+            border-radius: 4px;
+            background-color: rgb(60, 60, 60);
+            color: rgba(255, 255, 255, 0.9);
+            box-sizing: border-box;
+            -webkit-appearance: none; /* Remove default browser styling for select */
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #2196f3; /* HA Blue */
+            box-shadow: 0 0 0 1px #2196f3;
+        }
+        
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 30px;
+        }
+
+        /* Buttons */
+        input[type='submit'],
+        .ha-button {
+            background-color: #4CAF50; /* HA Green */
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .ha-button-blue {
+            background-color: #2196f3; /* HA Blue */
+        }
+
+        .ha-button-red {
+            background-color: #f44336; /* HA Red */
+        }
+
+        input[type='submit']:hover,
+        .ha-button:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Link Styling */
+        a {
+            color: #2196f3; /* HA Blue */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Specific Admin UI Elements */
+        .back-link {
+            display: block;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .link-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .link-item:last-child {
+            border-bottom: none;
+        }
+
+        .link-item-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 8px;
+        }
+
+        .link-actions button {
+            margin-right: 8px;
+        }
+        
+        .link-item-details ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85em;
+        }
+
+        .link-item-details li {
+            margin-bottom: 4px;
+        }
+        
+        .copy-link-input {
+            width: calc(100% - 40px); /* Adjust for copy button */
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .copy-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.7);
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        .copy-button svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            margin-bottom: 0;
+        }
+        
+        .action-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+        }
+        
+        .action-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            background-color: rgb(55, 55, 55);
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .action-item-details {
+            flex-grow: 1;
+            margin-left: 8px;
+        }
+        
+        .action-item-buttons {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .action-item-buttons .ha-button {
+            padding: 4px 8px;
+            font-size: 0.8em;
+        }
+
+        .modify-password-form {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modify-password-form input[type="password"] {
+            width: auto;
+            min-width: 150px;
+            margin-right: 8px;
+        }
+        .modify-password-form input[type="submit"] {
+            margin-top: 0;
+        }
+
+        .success-message {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Icons */
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            vertical-align: middle;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        
+        /* Utility */
+        .text-center {
+            text-align: center;
+        }
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        .mt-4 {
+            margin-top: 16px;
         }
     </style>
     <script type="text/javascript">
@@ -310,31 +413,46 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
       });
     </script>
 </head>
-<body role="document">
+<body>
 <?php
 if (isset($_GET['page']) && $_GET['page'] === 'style'):
     include_once 'style.php';
 else:
 ?>
-<a class="createNewLink" href="?action=generateNewLink">Create link</a>
-<a class="createNewLink" href="?action=manageStyle">Manage Custom CSS</a><br/>
-<br/>
-<fieldset>
-    <legend>Create Link</legend>
+<div class="back-link">
+    <a class="ha-button ha-button-blue" href="?">&larr; Back to Main Admin</a>
+</div>
+
+<h1>Limited User Access Admin</h1>
+
+<?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
+    <div class="success-message">
+        Configuration has been saved successfully!
+    </div>
+<?php endif; ?>
+
+<div class="card mb-4">
+    <h2 class="card-header">Create New Link</h2>
     <form action="?action=createNamedLink" method="post">
-        <input  onblur="validateLink();" onChange="validateLink()" id="linkPath" 
-                type="text" name="linkPath" placeholder="Optional custom path (valid chars 0-9A-z)" />
-        <select name="theme">
-            <option selected="selected" value="default">default - dark</option>
-            <option value="light-grey">light - grey</option>
-            <option value="dark-blue">dark - blue</option>
-            <option value="light-blue">light - blue</option>
+        <label for="linkPath">Optional Custom Path:</label>
+        <input onblur="validateLink();" onchange="validateLink()" id="linkPath"
+                type="text" name="linkPath" placeholder="e.g., my_custom_link" />
+
+        <label for="theme">Theme:</label>
+        <select name="theme" id="theme">
+            <option selected="selected" value="default">Default - Dark</option>
+            <option value="light-grey">Light - Grey</option>
+            <option value="dark-blue">Dark - Blue</option>
+            <option value="light-blue">Light - Blue</option>
         </select>
-        <input type="password" name="password" placeholder="Optional password (max 72 chars)" maxlength="72" />
-        <input type="submit" value="Create Link" />
+
+        <label for="password">Optional Password:</label>
+        <input type="password" name="password" id="password" placeholder="Max 72 characters" maxlength="72" />
+
+        <input type="submit" value="Create Link" class="ha-button" />
     </form>
-</fieldset>
-<br/><br/>
+</div>
+
 <?php
 if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUEST['action'] == 'adjustAction')) :
     $queryParams =  ($_REQUEST['action'] == 'adjustAction')
@@ -344,36 +462,18 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
         $data = json_decode(file_get_contents("/data/links/{$_REQUEST['id']}.json"));
     }
 ?>
-    <fieldset>
-        <legend>Add action to link:</legend>
-        <?php if ($_REQUEST['action'] == 'adjustAction'): ?>
-        <div style="text-align: right;">
-            <a class="link noBorder" href="javascript:fillData();" title="reset form">
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M19 3H14.82C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M12 3C12.55 3 13 3.45 13 4S12.55 5 12 5 11 4.55 11 4 11.45 3 12 3M7 7H17V5H19V19H5V5H7V7M12 17V15H17V17H12M12 11V9H17V11H12M8 12V9H7V8H9V12H8M9.25 14C9.66 14 10 14.34 10 14.75C10 14.95 9.92 15.14 9.79 15.27L8.12 17H10V18H7V17.08L9 15H7V14H9.25" />
-                </svg>
-            </a>
-        </div>
-        <?php endif; ?>
-        <form
-                action="<?= $queryParams ?>"
-                method="post"
-                onsubmit="validateDates();"
-        >
-            <label for="friendly_name">Friendly name:</label><br/>
+    <div class="card mb-4">
+        <h2 class="card-header"><?= ($_REQUEST['action'] == 'adjustAction') ? 'Edit Action' : 'Add Action to Link' ?></h2>
+        <form action="<?= $queryParams ?>" method="post" onsubmit="validateDates();">
+            <label for="friendly_name">Friendly name:</label>
             <input id="friendly_name" required name="friendly_name" type="text" />
-            <br/>
 
-            <label for="service_call">Service call:</label><br/>
-            <select id="service_call" required name="service_call">
-            </select>
-            <br/>
+            <label for="service_call">Service call:</label>
+            <select id="service_call" required name="service_call"></select>
 
-            <div id="dynamic_fields">
+            <div id="dynamic_fields"></div>
 
-            </div>
-
-            <label for="valid_from_date">Valid from:</label><br/>
+            <label for="valid_from_date">Valid from:</label>
             <input id="valid_from_date"
                    placeholder="YYYY-MM-DD"
                    class="dateinput"
@@ -394,9 +494,8 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
                    value="00:00"
             />
             <input name="valid_from" type="hidden" id="valid_from" />
-            <br/>
 
-            <label for="expiry_time_date">Expiry time:</label><br/>
+            <label for="expiry_time_date">Expiry time:</label>
             <input id="expiry_time_date"
                    name="expiry_time_date"
                    class="dateinput"
@@ -415,15 +514,14 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
                    value="23:59"
             />
             <input name="expiry_time" type="hidden" id="expiry_time" />
-            <br/>
 
-            <label for="one_time_use">One time use?</label><br/>
+            <label for="one_time_use">One time use?</label>
             <input type="checkbox" value="1" name="one_time_use" id="one_time_use" />
-            <br/>
+            <span class="ha-checkbox-label"></span><br/>
 
-            <input type="submit" />
+            <input type="submit" value="Save Action" class="ha-button" />
         </form>
-    </fieldset>
+    </div>
     <script type="text/javascript">
       let data = <?= (isset($data) && isset($data->{$_GET['action_id']})) ? json_encode($data->{$_GET['action_id']}) : '[]' ?>;
       function fillData() {
@@ -471,82 +569,87 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
       fillData();
       document.addEventListener('builtForm', function (e) { fillData(); }, false);
     </script>
-    <br/><br/>
-<?php endif;
-foreach($actions->getAllLinks() as $link) :
-    $link = str_replace([$actions::DATA_DIR,'.json'], '', $link);
-    $data = json_decode(file_get_contents("/data/links/{$link}.json"),false);
-    unset($data->linkData);
-?>
-    <div class="row">
-        <div class="column">
-            Link: <input
-                    class="link copylink"
-                    id="copyLink<?=$link?>"
-                    type="text"
-                    value="<?= $actions->externalUrl ?><?= $link ?>/"
-            />
-            <span class="copy" style="cursor:pointer;" onclick='(function() {
-                    var copyText = document.getElementById("copyLink<?=$link?>");
-                    copyText.select();
-                    copyText.setSelectionRange(0, 99999);
-                    document.execCommand("copy");
+<?php endif; ?>
+
+<div class="card">
+    <h2 class="card-header">Existing Links</h2>
+    <?php if (empty($actions->getAllLinks())): ?>
+        <p>No links created yet.</p>
+    <?php else: ?>
+        <?php foreach($actions->getAllLinks() as $link) :
+            $link = str_replace([$actions::DATA_DIR,'.json'], '', $link);
+            $data = json_decode(file_get_contents("/data/links/{$link}.json"),false);
+            unset($data->linkData);
+        ?>
+            <div class="link-item">
+                <div class="link-item-section">
+                    Link:
+                    <input class="copy-link-input" id="copyLink<?=$link?>" type="text"
+                           value="<?= $actions->externalUrl ?><?= $link ?>/" readonly/>
+                    <button type="button" class="ha-button" onclick='(function() {
+                        var copyText = document.getElementById("copyLink<?=$link?>");
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999);
+                        document.execCommand("copy");
+                        alert("Link copied to clipboard!");
                     })();'>
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
-                </svg>
-            </span>
-        </div>
-        <div class="column">
-            <a class="link" href="?action=addAction&id=<?= $link ?>">
-                Add action
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M17,13H13V17H11V13H7V11H11V7H13V11H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z" />
-                </svg>
-            </a>
-        </div>
-        <div class="column">
-            <a class="link" href="?action=deleteLink&id=<?= $link ?>">
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
-                </svg>
-            </a>
-        </div>
-        <div class="column">
-            <ul>
-                <?php
-                if (!is_null($data)):
-                    foreach($data as $action => $entry):
-                    $lastUsed = $entry->last_used ?? [];
-                ?>
-                        <li>
-                            <a class="link noBorder" href="?action=removeAction&id=<?= $link ?>&action_id=<?= $action ?>">
-                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" />
-                                </svg>
-                            </a>
-                            <a class="link noBorder" href="?action=adjustAction&id=<?= $link ?>&action_id=<?= $action ?>">
-                                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
-                                </svg>
-                            </a>
-                            <?= $entry->friendly_name ?><br/>
-                            <?= 'Times used: '. count($lastUsed); ?><br/>
-                            <?= 'last used: '. date('Y-m-d H:i:s', end($lastUsed)); ?>
-                        </li>
-                    <?php endforeach; // for ($data as $action => $entry) ?>
-                <?php endif; // for if (!is_null($data)) ?>
-            </ul>
-            <!-- Modify Password Form -->
-            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ccc;">
-                <form action="?action=modifyPassword&id=<?= $link ?>" method="post" style="display: inline-block;">
-                    <input type="password" name="new_password" placeholder="New password" maxlength="72" required style="width: 150px; padding: 5px; margin-right: 5px;" />
-                    <input type="submit" value="Change Password" style="padding: 5px 10px; font-size: 12px;" />
-                </form>
+                        <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="link-item-section link-actions">
+                    <a class="ha-button ha-button-blue" href="?action=addAction&id=<?= $link ?>">
+                        <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M17,13H13V17H11V13H7V11H11V7H13V11H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z" /></svg>
+                        Add Action
+                    </a>
+                    <a class="ha-button ha-button-red" href="?action=deleteLink&id=<?= $link ?>" onclick="return confirm('Are you sure you want to delete this link?');">
+                        <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" /></svg>
+                        Delete Link
+                    </a>
+                </div>
+                <div class="link-item-section link-item-details">
+                    <?php if (!is_null($data) && !empty((array)$data)): ?>
+                        <ul class="action-list">
+                            <?php foreach($data as $action => $entry):
+                                $lastUsed = $entry->last_used ?? [];
+                            ?>
+                                <li class="action-item">
+                                    <div class="action-item-details">
+                                        <?= htmlspecialchars($entry->friendly_name) ?><br/>
+                                        <small>Times used: <?= count($lastUsed) ?></small><br/>
+                                        <?php if (!empty($lastUsed)): ?>
+                                            <small>Last used: <?= date('Y-m-d H:i:s', end($lastUsed)) ?></small>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="action-item-buttons">
+                                        <a class="ha-button ha-button-blue" href="?action=adjustAction&id=<?= $link ?>&action_id=<?= $action ?>">
+                                            <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>
+                                            Edit
+                                        </a>
+                                        <a class="ha-button ha-button-red" href="?action=removeAction&id=<?= $link ?>&action_id=<?= $action ?>" onclick="return confirm('Are you sure you want to remove this action?');">
+                                            <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M9,8H11V17H9V8M13,8H15V17H13V8Z" /></svg>
+                                            Remove
+                                        </a>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p>No actions defined for this link.</p>
+                    <?php endif; ?>
+
+                    <div class="modify-password-form">
+                        <form action="?action=modifyPassword&id=<?= $link ?>" method="post">
+                            <input type="password" name="new_password" placeholder="New password" maxlength="72" required />
+                            <input type="submit" value="Change Password" class="ha-button ha-button-blue" />
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-<?php endforeach; // for ($actions->getAllLinks() as $link) ?>
-<?php endif; // for if (isset($_GET['page']) && $_GET['page'] === 'style') ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+
+<?php endif; ?>
 </body>
 </html>

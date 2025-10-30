@@ -11,32 +11,26 @@ You can set a time frame to the actions, as well as make an action "one time use
 
 ### How to use
 
-First open the admin-interface (default port 8899),
-click the "create new link" button
+First, open the admin interface (default port 8899 or through Ingress).
+Navigate to the "Create New Link" card to generate a guest access link.
 
-Select which service you want to make public and
-enter the data that is required by the service (for example entity_id)
+Select which Home Assistant service you want to expose and
+enter any required data (e.g., `entity_id` for a device).
+You can optionally set a custom path or password for the link.
 
 Within the valid time frame chosen when you created the action,
 your guest can access the external_link/name_of_link 
 (for example http://your-external-url.tld:8888/adf12345)
 to be able to trigger the actions using a button.
 
-### Inject code into user view
+### UI Customization
 
-There are four custom entry points into the user view, that you 
-can use these to modify the design of the end user page
-- style.css
-- script.js
-- header.htm
-- footer.htm
+The admin interface now includes a dedicated section for customizing the user-facing page. You can access this by clicking "Manage Custom CSS & Footer" from the main admin page.
 
-The first two are injected into the `<head>` section of the page, just above `</head>`
-The two latter are injected into the `<body>` section, the first of which just after the opening tag,
-and the footer just before closing the body.
+**Custom CSS**: Define custom CSS rules to change the appearance of the user page. This is injected into the `<head>` section.
+**Custom Footer HTML**: Add custom HTML content that will appear at the bottom of the user page, just before the closing `</body>` tag. This is useful for disclaimers, additional links, or branding.
 
-To make use of this, you should create the files in the 
-/share/limited-guest-access/ directory and adjust them to fit your needs.
+For advanced customization (e.g., custom JavaScript or header HTML), the addon still supports injecting `script.js` directly into the `<head>` and `header.htm` just after the opening `<body>` tag. These files should be placed in the `/share/limited-guest-access/` directory.
 
 ### Install instructions
 
