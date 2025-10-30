@@ -1,5 +1,5 @@
 <?php
-include 'actions.php';
+include_once 'actions.php';
 $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 
 // Load existing CSS if it exists
