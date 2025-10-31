@@ -1,4 +1,4 @@
-## [0.2.0] - 2024-10-31
+## [0.2.0] - 2025-10-31
 ### Breaking Change
 - Complete refactoring of the addon for improved security, redesigned user interface, and enhanced customization options.
 ### Features
