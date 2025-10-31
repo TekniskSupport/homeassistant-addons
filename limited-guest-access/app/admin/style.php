@@ -86,8 +86,8 @@ if (file_exists($footerFile)) {
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #a8e1fb; /* HA Blue */
-            box-shadow: 0 0 0 1px #a8e1fb;
+            border-color: #009ac7; /* HA Blue */
+            box-shadow: 0 0 0 1px #009ac7;
         }
         
         select {
@@ -100,8 +100,8 @@ if (file_exists($footerFile)) {
         /* Buttons */
         input[type='submit'],
         .ha-button {
-            background-color: #d2e7b9; /* HA Green */
-            color: #101010;
+            background-color: #009ac7; /* Action Blue */
+            color: #e1e1e1;
             padding: 10px 16px;
             border: none;
             border-radius: 4px;
@@ -114,7 +114,7 @@ if (file_exists($footerFile)) {
         }
         
         .ha-button-blue {
-            background-color: #a8e1fb; /* HA Blue */
+            background-color: #009ac7; /* Action Blue */
         }
 
         .ha-button-red {
@@ -128,7 +128,7 @@ if (file_exists($footerFile)) {
 
         /* Link Styling */
         a {
-            color: #a8e1fb; /* HA Blue */
+            color: #009ac7; /* Action Blue */
             text-decoration: none;
         }
 
@@ -292,6 +292,9 @@ if (file_exists($footerFile)) {
     </style>
 </head>
 <body role="document">
+    <div class="back-link">
+        <a class="ha-button ha-button-blue" href="?">&larr; Back to Main Admin</a>
+    </div>
     <h1>Custom CSS & Footer Management</h1>
     
     <?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
@@ -325,7 +328,7 @@ a {
             <label for="custom_footer">Custom Footer HTML</label>
             <textarea id="custom_footer" name="custom_footer" style="height: 300px; overflow-y: scroll;" placeholder="<!-- Enter your custom footer HTML here -->"><?= htmlspecialchars($footerContent) ?></textarea>
             <br/>
-            <input type="submit" value="Save Configuration" />
+            <input type="submit" value="Save Configuration" class="ha-button ha-button-blue" />
         </form>
     </div>
 </body>

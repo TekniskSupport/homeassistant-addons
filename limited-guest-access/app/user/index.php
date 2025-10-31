@@ -143,7 +143,7 @@ if ($actions->passwordProtected && !$actions->authenticated) :?>
         <?php endif; ?>
         <form action='?' method="post">
             <input name='password' type="password" placeholder="password">
-            <input type="submit" />
+            <input type="submit" value="Login" />
         </form>
     </div>
 <?php

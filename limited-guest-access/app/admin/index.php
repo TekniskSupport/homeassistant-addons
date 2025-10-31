@@ -73,8 +73,8 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #a8e1fb; /* HA Blue */
-            box-shadow: 0 0 0 1px #a8e1fb;
+            border-color: #009ac7; /* HA Blue */
+            box-shadow: 0 0 0 1px #009ac7;
         }
         
         select {
@@ -87,8 +87,8 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         /* Buttons */
         input[type='submit'],
         .ha-button {
-            background-color: #d2e7b9; /* HA Green */
-            color: #101010;
+            background-color: #009ac7; /* Action Blue */
+            color: #e1e1e1;
             padding: 10px 16px;
             border: none;
             border-radius: 4px;
@@ -101,7 +101,12 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         }
         
         .ha-button-blue {
-            background-color: #a8e1fb; /* HA Blue */
+            background-color: #009ac7; /* Action Blue */
+        }
+        
+        .ha-button-green { /* Defined as a new class based on user request */
+            background-color: #d2e7b9; 
+            color: #101010;
         }
 
         .ha-button-red {
@@ -115,7 +120,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 
         /* Link Styling */
         a {
-            color: #a8e1fb; /* HA Blue */
+            color: #009ac7; /* Action Blue */
             text-decoration: none;
         }
 
@@ -419,6 +424,9 @@ if (isset($_GET['page']) && $_GET['page'] === 'style'):
     include_once 'style.php';
 elseif (isset($_GET['page']) && $_GET['page'] === 'add_link'):
 ?>
+<div class="back-link">
+    <a class="ha-button ha-button-blue" href="?">&larr; Back to Main Admin</a>
+</div>
 <h1>Create New Link</h1>
 <div class="card mb-4">
     <form action="?action=createNamedLink" method="post">
@@ -437,7 +445,7 @@ elseif (isset($_GET['page']) && $_GET['page'] === 'add_link'):
         <label for="password">Optional Password:</label>
         <input type="password" name="password" id="password" placeholder="Max 72 characters" maxlength="72" />
 
-        <input type="submit" value="Create Link" class="ha-button" />
+        <input type="submit" value="Create Link" class="ha-button ha-button-blue" />
     </form>
 </div>
 <?php else: ?>
@@ -450,7 +458,7 @@ elseif (isset($_GET['page']) && $_GET['page'] === 'add_link'):
 <?php endif; ?>
 
 <div class="card mb-4 text-center">
-    <a class="ha-button ha-button-green" href="?page=add_link">
+    <a class="ha-button ha-button-blue" href="?page=add_link">
         <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M17,13H13V17H11V13H7V11H11V7H13V11H17M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
         Add New Link
     </a>
@@ -527,7 +535,7 @@ if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUE
             <input type="checkbox" value="1" name="one_time_use" id="one_time_use" />
             <span class="ha-checkbox-label"></span><br/>
 
-            <input type="submit" value="Save Action" class="ha-button" />
+            <input type="submit" value="Save Action" class="ha-button ha-button-blue" />
         </form>
     </div>
     <script type="text/javascript">
