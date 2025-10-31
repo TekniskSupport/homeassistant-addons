@@ -12,15 +12,15 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-            background-color: rgb(28, 28, 28);
-            color: rgba(255, 255, 255, 0.9);
+            background-color: #1c1c1c;
+            color: #e1e1e1;
             padding: 20px;
             box-sizing: border-box;
         }
 
         /* General Typography */
         h1, h2, h3, h4, h5, h6 {
-            color: rgba(255, 255, 255, 0.9);
+            color: #e1e1e1;
             text-align: center;
             margin-top: 0;
             margin-bottom: 24px;
@@ -28,7 +28,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 
         /* Card Styling to mimic HA UI */
         .card {
-            background-color: rgb(48, 48, 48);
+            background-color: #1e1e1e;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             padding: 24px;
@@ -39,8 +39,8 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             font-size: 1.25em;
             font-weight: 500;
             margin-bottom: 16px;
-            color: rgba(255, 255, 255, 0.9);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e1e1e1;
+            border-bottom: 1px solid #7d7d7d;
             padding-bottom: 12px;
         }
 
@@ -48,7 +48,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         label {
             display: block;
             margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.7);
+            color: #e1e1e1;
             font-size: 0.9em;
         }
 
@@ -61,10 +61,10 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             width: 100%;
             padding: 10px 12px;
             margin-bottom: 16px;
-            border: 1px solid rgb(58, 58, 58);
+            border: 1px solid #7d7d7d;
             border-radius: 4px;
-            background-color: rgb(60, 60, 60);
-            color: rgba(255, 255, 255, 0.9);
+            background-color: #101010;
+            color: #e1e1e1;
             box-sizing: border-box;
             -webkit-appearance: none; /* Remove default browser styling for select */
             -moz-appearance: none;
@@ -73,12 +73,12 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #2196f3; /* HA Blue */
-            box-shadow: 0 0 0 1px #2196f3;
+            border-color: #a8e1fb; /* HA Blue */
+            box-shadow: 0 0 0 1px #a8e1fb;
         }
         
         select {
-            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg fill="e1e1e1" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
             background-repeat: no-repeat;
             background-position: right 8px center;
             padding-right: 30px;
@@ -87,8 +87,8 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         /* Buttons */
         input[type='submit'],
         .ha-button {
-            background-color: #4CAF50; /* HA Green */
-            color: white;
+            background-color: #d2e7b9; /* HA Green */
+            color: #101010;
             padding: 10px 16px;
             border: none;
             border-radius: 4px;
@@ -101,11 +101,11 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         }
         
         .ha-button-blue {
-            background-color: #2196f3; /* HA Blue */
+            background-color: #a8e1fb; /* HA Blue */
         }
 
         .ha-button-red {
-            background-color: #f44336; /* HA Red */
+            background-color: #db4437; /* HA Red */
         }
 
         input[type='submit']:hover,
@@ -115,7 +115,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 
         /* Link Styling */
         a {
-            color: #2196f3; /* HA Blue */
+            color: #a8e1fb; /* HA Blue */
             text-decoration: none;
         }
 
@@ -135,7 +135,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             flex-wrap: wrap;
             align-items: center;
             padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid #7d7d7d;
         }
         .link-item:last-child {
             border-bottom: none;
@@ -171,7 +171,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             background: none;
             border: none;
             cursor: pointer;
-            color: rgba(255, 255, 255, 0.7);
+            color: #e1e1e1;
             vertical-align: middle;
             margin-left: 8px;
         }
@@ -186,7 +186,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             list-style: none;
             padding: 0;
             margin-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #7d7d7d;
             padding-top: 10px;
         }
         
@@ -194,7 +194,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
             display: flex;
             align-items: center;
             margin-bottom: 8px;
-            background-color: rgb(55, 55, 55);
+            background-color: #101010;
             padding: 8px;
             border-radius: 4px;
         }
@@ -217,7 +217,7 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         .modify-password-form {
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #7d7d7d;
         }
 
         .modify-password-form input[type="password"] {
@@ -230,8 +230,8 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
         }
 
         .success-message {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #d2e7b9;
+            color: #101010;
             padding: 10px;
             border-radius: 4px;
             margin-bottom: 20px;
@@ -417,29 +417,10 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 <?php
 if (isset($_GET['page']) && $_GET['page'] === 'style'):
     include_once 'style.php';
-else:
+elseif (isset($_GET['page']) && $_GET['page'] === 'add_link'):
 ?>
-<div class="back-link">
-    <a class="ha-button ha-button-blue" href="?">&larr; Back to Main Admin</a>
-</div>
-
-<h1>Limited User Access Admin</h1>
-
-<?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
-    <div class="success-message">
-        Configuration has been saved successfully!
-    </div>
-<?php endif; ?>
-
-<div class="card mb-4 text-center">
-    <a class="ha-button ha-button-blue" href="?page=style">
-        <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,18.5C12.97,18.5 13.75,19.28 13.75,20.25C13.75,21.22 12.97,22 12,22C11.03,22 10.25,21.22 10.25,20.25C10.25,19.28 11.03,18.5 12,18.5M12,2C11.03,2 10.25,2.78 10.25,3.75C10.25,4.72 11.03,5.5 12,5.5C12.97,5.5 13.75,4.72 13.75,3.75C13.75,2.78 12.97,2 12,2M12,10.25C11.03,10.25 10.25,11.03 10.25,12C10.25,12.97 11.03,13.75 12,13.75C12.97,13.75 13.75,12.97 13.75,12C13.75,11.03 12.97,10.25 12,10.25M17.85,7L21.75,8.15L20.6,12L17.85,7M3,12L4.15,8.15L8.05,7L3,12M12,15.25C11.66,15.25 11.33,15.19 11,15.15V16L12,16.5L13,16V15.15C12.67,15.19 12.34,15.25 12,15.25M12,8.75C12.34,8.75 12.66,8.81 13,8.85V8L12,7.5L11,8V8.85C11.33,8.81 11.66,8.75 12,8.75Z" /></svg>
-        Manage Customization
-    </a>
-</div>
-
+<h1>Create New Link</h1>
 <div class="card mb-4">
-    <h2 class="card-header">Create New Link</h2>
     <form action="?action=createNamedLink" method="post">
         <label for="linkPath">Optional Custom Path:</label>
         <input onblur="validateLink();" onchange="validateLink()" id="linkPath"
@@ -459,6 +440,26 @@ else:
         <input type="submit" value="Create Link" class="ha-button" />
     </form>
 </div>
+<?php else: ?>
+<h1>Limited User Access Admin</h1>
+
+<?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
+    <div class="success-message">
+        Configuration has been saved successfully!
+    </div>
+<?php endif; ?>
+
+<div class="card mb-4 text-center">
+    <a class="ha-button ha-button-green" href="?page=add_link">
+        <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M17,13H13V17H11V13H7V11H11V7H13V11H17M19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+        Add New Link
+    </a>
+    <a class="ha-button ha-button-blue" href="?page=style">
+        <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,18.5C12.97,18.5 13.75,19.28 13.75,20.25C13.75,21.22 12.97,22 12,22C11.03,22 10.25,21.22 10.25,20.25C10.25,19.28 11.03,18.5 12,18.5M12,2C11.03,2 10.25,2.78 10.25,3.75C10.25,4.72 11.03,5.5 12,5.5C12.97,5.5 13.75,4.72 13.75,3.75C13.75,2.78 12.97,2 12,2M12,10.25C11.03,10.25 10.25,11.03 10.25,12C10.25,12.97 11.03,13.75 12,13.75C12.97,13.75 13.75,12.97 13.75,12C13.75,11.03 12.97,10.25 12,10.25M17.85,7L21.75,8.15L20.6,12L17.85,7M3,12L4.15,8.15L8.05,7L3,12M12,15.25C11.66,15.25 11.33,15.19 11,15.15V16L12,16.5L13,16V15.15C12.67,15.19 12.34,15.25 12,15.25M12,8.75C12.34,8.75 12.66,8.81 13,8.85V8L12,7.5L11,8V8.85C11.33,8.81 11.66,8.75 12,8.75Z" /></svg>
+        Manage Customization
+    </a>
+</div>
+
 
 <?php
 if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'addAction' || $_REQUEST['action'] == 'adjustAction')) :

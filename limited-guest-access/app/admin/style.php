@@ -25,15 +25,15 @@ if (file_exists($footerFile)) {
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-            background-color: rgb(28, 28, 28);
-            color: rgba(255, 255, 255, 0.9);
+            background-color: #1c1c1c;
+            color: #e1e1e1;
             padding: 20px;
             box-sizing: border-box;
         }
 
         /* General Typography */
         h1, h2, h3, h4, h5, h6 {
-            color: rgba(255, 255, 255, 0.9);
+            color: #e1e1e1;
             text-align: center;
             margin-top: 0;
             margin-bottom: 24px;
@@ -41,7 +41,7 @@ if (file_exists($footerFile)) {
 
         /* Card Styling to mimic HA UI */
         .card {
-            background-color: rgb(48, 48, 48);
+            background-color: #1e1e1e;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             padding: 24px;
@@ -52,8 +52,8 @@ if (file_exists($footerFile)) {
             font-size: 1.25em;
             font-weight: 500;
             margin-bottom: 16px;
-            color: rgba(255, 255, 255, 0.9);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e1e1e1;
+            border-bottom: 1px solid #7d7d7d;
             padding-bottom: 12px;
         }
 
@@ -61,7 +61,7 @@ if (file_exists($footerFile)) {
         label {
             display: block;
             margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.7);
+            color: #e1e1e1;
             font-size: 0.9em;
         }
 
@@ -74,10 +74,10 @@ if (file_exists($footerFile)) {
             width: 100%;
             padding: 10px 12px;
             margin-bottom: 16px;
-            border: 1px solid rgb(58, 58, 58);
+            border: 1px solid #7d7d7d;
             border-radius: 4px;
-            background-color: rgb(60, 60, 60);
-            color: rgba(255, 255, 255, 0.9);
+            background-color: #101010;
+            color: #e1e1e1;
             box-sizing: border-box;
             -webkit-appearance: none; /* Remove default browser styling for select */
             -moz-appearance: none;
@@ -86,12 +86,12 @@ if (file_exists($footerFile)) {
 
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #2196f3; /* HA Blue */
-            box-shadow: 0 0 0 1px #2196f3;
+            border-color: #a8e1fb; /* HA Blue */
+            box-shadow: 0 0 0 1px #a8e1fb;
         }
         
         select {
-            background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg fill="e1e1e1" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
             background-repeat: no-repeat;
             background-position: right 8px center;
             padding-right: 30px;
@@ -100,8 +100,8 @@ if (file_exists($footerFile)) {
         /* Buttons */
         input[type='submit'],
         .ha-button {
-            background-color: #4CAF50; /* HA Green */
-            color: white;
+            background-color: #d2e7b9; /* HA Green */
+            color: #101010;
             padding: 10px 16px;
             border: none;
             border-radius: 4px;
@@ -114,11 +114,11 @@ if (file_exists($footerFile)) {
         }
         
         .ha-button-blue {
-            background-color: #2196f3; /* HA Blue */
+            background-color: #a8e1fb; /* HA Blue */
         }
 
         .ha-button-red {
-            background-color: #f44336; /* HA Red */
+            background-color: #db4437; /* HA Red */
         }
 
         input[type='submit']:hover,
@@ -128,7 +128,7 @@ if (file_exists($footerFile)) {
 
         /* Link Styling */
         a {
-            color: #2196f3; /* HA Blue */
+            color: #a8e1fb; /* HA Blue */
             text-decoration: none;
         }
 
@@ -148,7 +148,7 @@ if (file_exists($footerFile)) {
             flex-wrap: wrap;
             align-items: center;
             padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid #7d7d7d;
         }
         .link-item:last-child {
             border-bottom: none;
@@ -184,7 +184,7 @@ if (file_exists($footerFile)) {
             background: none;
             border: none;
             cursor: pointer;
-            color: rgba(255, 255, 255, 0.7);
+            color: #e1e1e1;
             vertical-align: middle;
             margin-left: 8px;
         }
@@ -199,7 +199,7 @@ if (file_exists($footerFile)) {
             list-style: none;
             padding: 0;
             margin-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #7d7d7d;
             padding-top: 10px;
         }
         
@@ -207,7 +207,7 @@ if (file_exists($footerFile)) {
             display: flex;
             align-items: center;
             margin-bottom: 8px;
-            background-color: rgb(55, 55, 55);
+            background-color: #101010;
             padding: 8px;
             border-radius: 4px;
         }
@@ -230,7 +230,7 @@ if (file_exists($footerFile)) {
         .modify-password-form {
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #7d7d7d;
         }
 
         .modify-password-form input[type="password"] {
@@ -243,8 +243,8 @@ if (file_exists($footerFile)) {
         }
 
         .success-message {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #d2e7b9;
+            color: #101010;
             padding: 10px;
             border-radius: 4px;
             margin-bottom: 20px;
@@ -253,15 +253,15 @@ if (file_exists($footerFile)) {
 
         /* Instructions Specific */
         .instructions {
-            background-color: rgb(40, 40, 40);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #1e1e1e;
+            border: 1px solid #7d7d7d;
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
         }
 
         .instructions h3 {
-            color: rgba(255, 255, 255, 0.9);
+            color: #e1e1e1;
             margin-top: 0;
             margin-bottom: 10px;
             font-size: 1.1em;
@@ -272,7 +272,7 @@ if (file_exists($footerFile)) {
             list-style: disc;
             margin-left: 20px;
             padding: 0;
-            color: rgba(255, 255, 255, 0.7);
+            color: #e1e1e1;
         }
 
         .instructions li {
@@ -292,8 +292,6 @@ if (file_exists($footerFile)) {
     </style>
 </head>
 <body role="document">
-    <a class="back-link" href="?">&larr; Back to Main Admin</a>
-    
     <h1>Custom CSS & Footer Management</h1>
     
     <?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
@@ -315,7 +313,7 @@ if (file_exists($footerFile)) {
     <div class="form-container card">
         <form action="?action=saveStyle" method="post">
             <label for="custom_css">Custom CSS</label>
-            <textarea id="custom_css" name="custom_css" placeholder="/* Enter your custom CSS here */
+            <textarea id="custom_css" name="custom_css" style="height: 300px; overflow-y: scroll;" placeholder="/* Enter your custom CSS here */
 body {
     background-color: #f0f0f0;
 }
@@ -325,7 +323,7 @@ a {
 }"><?= htmlspecialchars($cssContent) ?></textarea>
             <br/>
             <label for="custom_footer">Custom Footer HTML</label>
-            <textarea id="custom_footer" name="custom_footer" placeholder="<!-- Enter your custom footer HTML here -->"><?= htmlspecialchars($footerContent) ?></textarea>
+            <textarea id="custom_footer" name="custom_footer" style="height: 300px; overflow-y: scroll;" placeholder="<!-- Enter your custom footer HTML here -->"><?= htmlspecialchars($footerContent) ?></textarea>
             <br/>
             <input type="submit" value="Save Configuration" />
         </form>
