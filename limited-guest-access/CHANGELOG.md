@@ -1,11 +1,13 @@
-## [0.1.35] - 2024-10-30
-### Feature
-- Complete redesign of the admin UI to match the look and feel of Home Assistant.
+## [2.0.0] - 2024-10-31
+### Breaking Change
+- Complete refactoring of the addon for improved security, redesigned user interface, and enhanced customization options.
+### Features
+- Redesigned Admin UI to match Home Assistant aesthetic with a cleaner, card-based layout.
 - Centralized UI for managing custom CSS and footer HTML directly from the admin panel.
-- Simplified link creation process by removing the redundant top button.
-### Bugfix
-- Resolved a critical issue causing duplicated headers and footers on user-facing pages.
-- Corrected various PHP errors, including class redeclaration and syntax issues.
+- Dedicated "Add New Link" page for enhanced clarity.
+- Standardized blue action buttons across the admin interface.
+- Improved user feedback for password entry on guest links.
+- Back to main admin button added to sub-pages for improved navigation.
 
 ## [0.1.33] - 2024-03-28
 ### bugfix
