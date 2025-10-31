@@ -5,9 +5,8 @@
 - Redesigned Admin UI to match Home Assistant aesthetic with a cleaner, card-based layout.
 - Centralized UI for managing custom CSS and footer HTML directly from the admin panel.
 - Dedicated "Add New Link" page for enhanced clarity.
-- Standardized blue action buttons across the admin interface.
 - Improved user feedback for password entry on guest links.
-- Back to main admin button added to sub-pages for improved navigation.
+- Added change password functionality
 
 ## [0.1.33] - 2024-03-28
 ### bugfix
