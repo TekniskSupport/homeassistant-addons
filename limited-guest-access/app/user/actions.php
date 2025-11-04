@@ -61,27 +61,14 @@ class Actions {
 
     protected function handleAuthentication(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        $link = $this->getLink();
-        $linkHash = $link ? sha1($link) : null;
-        
         if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
             $this->passwordProtected = true;
-
-            if ($linkHash && ($_SESSION['authenticated-' . $linkHash] ?? false) === true) {
-                $this->authenticated = true;
-                return;
-            }
             
             if (isset($_POST['password'])) {
                 if (password_verify($_POST['password'], $this->data->linkData->password)) {
                     $this->authenticated = true;
                 } else {
                     $this->authFailed = true;
-                    unset($_SESSION['authenticated-' . $linkHash]);
                 }
             }
         }
@@ -89,28 +76,22 @@ class Actions {
 
     protected function handleAction(): void
     {
-        if (!isset($_GET['action'])) {
-            return;
+        if (isset($_GET['action'])) {
+            $availableActions = $this->getFilteredActions();
+            $actionData = $availableActions->{$this->getAction()} ?? null;
+            
+            if (!$actionData) {
+                throw new \Exception('Unknown action');
+            }
+
+            $this
+                ->performAction($actionData)
+                ->addLog($this->getAction())
+                ->invalidateAction($actionData, $this->getAction())
+                ->redirect('?performedAction=' . urlencode($actionData->friendly_name));
         }
-
-        if ($this->passwordProtected && !$this->authenticated) {
-            $this->displayError("Authentication required to perform this action.");
-        }
-
-        $availableActions = $this->getFilteredActions();
-        $actionData = $availableActions->{$this->getAction()} ?? null;
-
-        if (!$actionData) {
-            throw new \Exception('Unknown action');
-        }
-
-        $this
-            ->performAction($actionData)
-            ->addLog($this->getAction())
-            ->invalidateAction($actionData, $this->getAction())
-            ->redirect('?performedAction=' . urlencode($actionData->friendly_name));
     }
-    
+
     public function getAllActions(): object
     {
 
