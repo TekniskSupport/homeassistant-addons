@@ -37,7 +37,7 @@ All customization options are managed directly through the admin UI. UI-saved cu
 
 In Home Assistant, head to Supervisor -> add-on store 
 and press the [...] menu, then click repositories and paste
-`https://github.com/chsln/homeassistant-addons`
+https://github.com/TekniskSupport/homeassistant-addons
 
 The add-on will now show up as a card along with your other add-ons.
 
