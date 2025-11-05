@@ -1,3 +1,16 @@
+## [0.2.0] - 2025-11-05
+### Breaking Change
+- Complete refactoring of the addon for improved security, redesigned user interface, and enhanced customization options.
+### Features
+- Redesigned Admin UI to match Home Assistant aesthetic with a cleaner, card-based layout.
+- Centralized UI for managing custom CSS, Header, Footer HTML and JavaScript directly from the admin panel.
+- Dedicated "Add New Link" page for enhanced clarity.
+- Improved user feedback for password entry on guest links.
+- Added change password functionality
+- Added one-hour session timeout for automatic logout
+- Added admin interface for viewing login attempts log
+- Added exponential backoff for failed login attempts to prevent brute-force attacks
+
 ## [0.1.33] - 2024-03-28
 ### bugfix
 - Fixed security issue, where a user could get access to a link not authenticated to, if authenticated to another link

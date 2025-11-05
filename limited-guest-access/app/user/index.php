@@ -122,17 +122,28 @@ switch ($actions->theme) {
             transition-duration:0.3s;
         }
     </style>
-    <?=  $actions->inject('style.css') ; ?>
-    <?=  $actions->inject('script.js') ; ?>
+    <?php 
+    $customCss = $actions->getCustomCss();
+    if ($customCss): ?>
+        <style type="text/css">
+            <?= $customCss ?>
+        </style>
+    <?php endif; ?>
 </head>
 <body role="document">
-<?=  $actions->inject('header.htm') ; ?>
+<?php echo $actions->injectHeader(); ?>
+
 <?php
 if ($actions->passwordProtected && !$actions->authenticated) :?>
-    <div style="text-align: center; margin-top: 20%">
-        <form action='?auth' method="post">
+    <div style="text-align: center; margin-top: 5%">
+        <?php if ($actions->authFailed): ?>
+            <div style="color: red; margin-bottom: 10px; font-weight: bold;">
+                Wrong password. Please try again.
+            </div>
+        <?php endif; ?>
+        <form action='?' method="post">
             <input name='password' type="password" placeholder="password">
-            <input type="submit" />
+            <input type="submit" value="Login" class="login-button" />
         </form>
     </div>
 <?php
@@ -171,6 +182,13 @@ else:
     endforeach;
 endif;
 ?>
-<?=  $actions->inject('footer.htm') ; ?>
+<?php echo $actions->injectFooter(); ?>
+<?php 
+    $customJs = $actions->getCustomJs();
+    if ($customJs): ?>
+        <script type="text/javascript">
+            <?= $customJs ?>
+        </script>
+    <?php endif; ?>
 </body>
 </html>

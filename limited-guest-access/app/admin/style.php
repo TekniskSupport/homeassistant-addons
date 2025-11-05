@@ -1,0 +1,356 @@
+<?php
+include_once 'actions.php';
+$actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
+
+// Load existing CSS if it exists
+$cssContent = '';
+$cssFile = '/data/style.css';
+if (file_exists($cssFile)) {
+    $cssContent = file_get_contents($cssFile);
+}
+
+$footerContent = '';
+$footerFile = '/data/footer.htm';
+if (file_exists($footerFile)) {
+    $footerContent = file_get_contents($footerFile);
+}
+
+$headerContent = '';
+$headerFile = '/data/header.htm';
+if (file_exists($headerFile)) {
+    $headerContent = file_get_contents($headerFile);
+}
+
+$jsContent = '';
+$jsFile = '/data/script.js';
+if (file_exists($jsFile)) {
+    $jsContent = file_get_contents($jsFile);
+}
+?><!DOCTYPE html>
+<html>
+<head>
+    <title>Limited User Access Admin - Custom CSS & Footer</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8;'/>
+    <style type="text/css">
+        /* Basic Reset & Body Styling for HA consistency */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            background-color: #1c1c1c;
+            color: #e1e1e1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* General Typography */
+        h1, h2, h3, h4, h5, h6 {
+            color: #e1e1e1;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 24px;
+        }
+
+        /* Card Styling to mimic HA UI */
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            font-size: 1.25em;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #e1e1e1;
+            border-bottom: 1px solid #7d7d7d;
+            padding-bottom: 12px;
+        }
+
+        /* Form Elements */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e1e1e1;
+            font-size: 0.9em;
+        }
+
+        input[type='text'],
+        input[type='password'],
+        input[type='date'],
+        input[type='time'],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            border: 1px solid #7d7d7d;
+            border-radius: 4px;
+            background-color: #101010;
+            color: #e1e1e1;
+            box-sizing: border-box;
+            -webkit-appearance: none; /* Remove default browser styling for select */
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #009ac7; /* HA Blue */
+            box-shadow: 0 0 0 1px #009ac7;
+        }
+        
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg fill="e1e1e1" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            padding-right: 30px;
+        }
+
+        /* Buttons */
+        input[type='submit'],
+        .ha-button {
+            background-color: #009ac7; /* Action Blue */
+            color: #e1e1e1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .ha-button-blue {
+            background-color: #009ac7; /* Action Blue */
+        }
+
+        .ha-button-red {
+            background-color: #db4437; /* HA Red */
+        }
+
+        input[type='submit']:hover,
+        .ha-button:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Link Styling */
+        a {
+            color: #009ac7; /* Action Blue */
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Specific Admin UI Elements */
+        .back-link {
+            display: block;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .link-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #7d7d7d;
+        }
+        .link-item:last-child {
+            border-bottom: none;
+        }
+
+        .link-item-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 8px;
+        }
+
+        .link-actions button {
+            margin-right: 8px;
+        }
+        
+        .link-item-details ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85em;
+        }
+
+        .link-item-details li {
+            margin-bottom: 4px;
+        }
+        
+        .copy-link-input {
+            width: calc(100% - 40px); /* Adjust for copy button */
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .copy-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #e1e1e1;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        .copy-button svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            margin-bottom: 0;
+        }
+        
+        .action-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            border-top: 1px solid #7d7d7d;
+            padding-top: 10px;
+        }
+        
+        .action-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            background-color: #101010;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .action-item-details {
+            flex-grow: 1;
+            margin-left: 8px;
+        }
+        
+        .action-item-buttons {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .action-item-buttons .ha-button {
+            padding: 4px 8px;
+            font-size: 0.8em;
+        }
+
+        .modify-password-form {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #7d7d7d;
+        }
+
+        .modify-password-form input[type="password"] {
+            width: auto;
+            min-width: 150px;
+            margin-right: 8px;
+        }
+        .modify-password-form input[type="submit"] {
+            margin-top: 0;
+        }
+
+        .success-message {
+            background-color: #d2e7b9;
+            color: #101010;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Instructions Specific */
+        .instructions {
+            background-color: #1e1e1e;
+            border: 1px solid #7d7d7d;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .instructions h3 {
+            color: #e1e1e1;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            text-align: left;
+        }
+
+        .instructions ul {
+            list-style: disc;
+            margin-left: 20px;
+            padding: 0;
+            color: #e1e1e1;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        /* Utility */
+        .text-center {
+            text-align: center;
+        }
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        .mt-4 {
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body role="document">
+    <div class="back-link">
+        <a class="ha-button ha-button-blue" href="?">&larr; Back to Main Admin</a>
+    </div>
+    <h1>Custom CSS & Footer Management</h1>
+    
+    <?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
+        <div class="success-message">
+            Configuration has been saved successfully!
+        </div>
+    <?php endif; ?>
+    
+    <div class="instructions card">
+        <h3>Instructions:</h3>
+        <ul>
+            <li>Enter your custom CSS styles in the text area below. These styles will be applied to all user-facing pages.</li>
+            <li>Enter custom HTML for your page header in the header text area below.</li>
+            <li>Enter custom HTML for your page footer in the footer text area below.</li>
+            <li>Enter your custom JavaScript code in the JavaScript text area below.</li>
+            <li>Use standard CSS/HTML/JavaScript syntax respectively.</li>
+            <li>Click "Save Configuration" when you're done.</li>
+        </ul>
+    </div>
+    
+    <div class="form-container card">
+        <form action="?action=saveStyle" method="post">
+            <label for="custom_css">Custom CSS</label>
+            <textarea id="custom_css" name="custom_css" style="height: 300px; overflow-y: scroll;" placeholder="/* Enter your custom CSS here */
+body {
+    background-color: #f0f0f0;
+}
+
+a {
+    color: #007bff;
+}"><?= htmlspecialchars($cssContent) ?></textarea>
+            <br/>
+            <label for="custom_header">Custom Header HTML</label>
+            <textarea id="custom_header" name="custom_header" style="height: 300px; overflow-y: scroll;" placeholder="<!-- Enter your custom header HTML here -->"><?= htmlspecialchars($headerContent) ?></textarea>
+            <br/>
+            <label for="custom_footer">Custom Footer HTML</label>
+            <textarea id="custom_footer" name="custom_footer" style="height: 300px; overflow-y: scroll;" placeholder="<!-- Enter your custom footer HTML here -->"><?= htmlspecialchars($footerContent) ?></textarea>
+            <br/>
+            <label for="custom_js">Custom JavaScript</label>
+            <textarea id="custom_js" name="custom_js" style="height: 300px; overflow-y: scroll;" placeholder="// Enter your custom JavaScript here
+console.log('Custom JavaScript loaded');"><?= htmlspecialchars($jsContent) ?></textarea>
+            <br/>
+            <input type="submit" value="Save Configuration" class="ha-button ha-button-blue" />
+        </form>
+    </div>
+</body>
+</html>
