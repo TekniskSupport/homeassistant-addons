@@ -1,3 +1,10 @@
+## [0.2.2] - 2025-11-05
+### Security
+- Fixed critical vulnerability that caused passwords to be deleted upon action execution
+- Implemented per-link, session-based authentication with a one-hour timeout
+### Features
+- Added UI fields for customizing Header HTML and JavaScript in the admin panel
+
 ## [0.2.0] - 2025-10-31
 ### Breaking Change
 - Complete refactoring of the addon for improved security, redesigned user interface, and enhanced customization options.

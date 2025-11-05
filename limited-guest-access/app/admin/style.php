@@ -14,6 +14,18 @@ $footerFile = '/data/footer.htm';
 if (file_exists($footerFile)) {
     $footerContent = file_get_contents($footerFile);
 }
+
+$headerContent = '';
+$headerFile = '/data/header.htm';
+if (file_exists($headerFile)) {
+    $headerContent = file_get_contents($headerFile);
+}
+
+$jsContent = '';
+$jsFile = '/data/script.js';
+if (file_exists($jsFile)) {
+    $jsContent = file_get_contents($jsFile);
+}
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -307,11 +319,13 @@ if (file_exists($footerFile)) {
         <h3>Instructions:</h3>
         <ul>
             <li>Enter your custom CSS styles in the text area below. These styles will be applied to all user-facing pages.</li>
+            <li>Enter custom HTML for your page header in the header text area below.</li>
             <li>Enter custom HTML for your page footer in the footer text area below.</li>
-            <li>Use standard CSS/HTML syntax respectively.</li>
+            <li>Enter your custom JavaScript code in the JavaScript text area below.</li>
+            <li>Use standard CSS/HTML/JavaScript syntax respectively.</li>
             <li>Click "Save Configuration" when you're done.</li>
-        </ul
->    </div>
+        </ul>
+    </div>
     
     <div class="form-container card">
         <form action="?action=saveStyle" method="post">
@@ -325,8 +339,15 @@ a {
     color: #007bff;
 }"><?= htmlspecialchars($cssContent) ?></textarea>
             <br/>
+            <label for="custom_header">Custom Header HTML</label>
+            <textarea id="custom_header" name="custom_header" style="height: 300px; overflow-y: scroll;" placeholder="<!-- Enter your custom header HTML here -->"><?= htmlspecialchars($headerContent) ?></textarea>
+            <br/>
             <label for="custom_footer">Custom Footer HTML</label>
             <textarea id="custom_footer" name="custom_footer" style="height: 300px; overflow-y: scroll;" placeholder="<!-- Enter your custom footer HTML here -->"><?= htmlspecialchars($footerContent) ?></textarea>
+            <br/>
+            <label for="custom_js">Custom JavaScript</label>
+            <textarea id="custom_js" name="custom_js" style="height: 300px; overflow-y: scroll;" placeholder="// Enter your custom JavaScript here
+console.log('Custom JavaScript loaded');"><?= htmlspecialchars($jsContent) ?></textarea>
             <br/>
             <input type="submit" value="Save Configuration" class="ha-button ha-button-blue" />
         </form>

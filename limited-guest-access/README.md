@@ -27,9 +27,11 @@ When a visitor accesses a password-protected link, they will be prompted to "Log
 The admin interface now includes a dedicated section for customizing the user-facing page. You can access this by clicking "Manage Customization" from the main admin page.
 
 **Custom CSS**: Define custom CSS rules to change the appearance of the user page. This is injected into the `<head>` section.
+**Custom Header HTML**: Add custom HTML content that will appear at the top of the user page, just after the opening `<body>` tag. This is useful for additional navigation, branding, or meta tags.
 **Custom Footer HTML**: Add custom HTML content that will appear at the bottom of the user page, just before the closing `</body>` tag. This is useful for disclaimers, additional links, or branding.
+**Custom JavaScript**: Add custom JavaScript code that will be injected into the `<head>` section of the user page.
 
-For advanced customization (e.g., custom JavaScript or header HTML), the addon still supports injecting `script.js` directly into the `<head>` and `header.htm` just after the opening `<body>` tag. These files should be placed in the `/share/limited-guest-access/` directory.
+All customization options are managed directly through the admin UI. UI-saved customizations take precedence over any fallback files in the `/share/limited-guest-access/` directory.
 
 ### Install instructions
 

@@ -275,16 +275,24 @@ class Actions
     protected function saveStyle(): self
     {
         $customCss = filter_input(INPUT_POST, 'custom_css', FILTER_UNSAFE_RAW);
-        
-        $customCss = filter_input(INPUT_POST, 'custom_css', FILTER_UNSAFE_RAW);
+        $customHeader = filter_input(INPUT_POST, 'custom_header', FILTER_UNSAFE_RAW);
         $customFooter = filter_input(INPUT_POST, 'custom_footer', FILTER_UNSAFE_RAW);
-        
+        $customJs = filter_input(INPUT_POST, 'custom_js', FILTER_UNSAFE_RAW);
+
         if ($customCss !== null) {
             file_put_contents('/data/style.css', $customCss);
         }
 
+        if ($customHeader !== null) {
+            file_put_contents('/data/header.htm', $customHeader);
+        }
+
         if ($customFooter !== null) {
             file_put_contents('/data/footer.htm', $customFooter);
+        }
+
+        if ($customJs !== null) {
+            file_put_contents('/data/script.js', $customJs);
         }
 
         return $this;
