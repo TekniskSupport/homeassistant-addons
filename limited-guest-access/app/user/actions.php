@@ -106,6 +106,11 @@ class Actions {
     protected function handleAction(): void
     {
         if (isset($_GET['action'])) {
+            // Security check: Ensure user is authenticated before performing any action
+            if ($this->passwordProtected && !$this->authenticated) {
+                $this->displayError("You are not authorized to perform this action. Please log in.");
+            }
+
             $availableActions = $this->getFilteredActions();
             $actionData = $availableActions->{$this->getAction()} ?? null;
             
