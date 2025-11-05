@@ -422,6 +422,8 @@ $actions = new \TekniskSupport\LimitedGuestAccess\Admin\Actions();
 <?php
 if (isset($_GET['page']) && $_GET['page'] === 'style'):
     include_once 'style.php';
+elseif (isset($_GET['page']) && $_GET['page'] === 'logs'):
+    include_once 'logs.php';
 elseif (isset($_GET['page']) && $_GET['page'] === 'add_link'):
 ?>
 <div class="back-link">
@@ -465,6 +467,10 @@ elseif (isset($_GET['page']) && $_GET['page'] === 'add_link'):
     <a class="ha-button ha-button-blue" href="?page=style">
         <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12,18.5C12.97,18.5 13.75,19.28 13.75,20.25C13.75,21.22 12.97,22 12,22C11.03,22 10.25,21.22 10.25,20.25C10.25,19.28 11.03,18.5 12,18.5M12,2C11.03,2 10.25,2.78 10.25,3.75C10.25,4.72 11.03,5.5 12,5.5C12.97,5.5 13.75,4.72 13.75,3.75C13.75,2.78 12.97,2 12,2M12,10.25C11.03,10.25 10.25,11.03 10.25,12C10.25,12.97 11.03,13.75 12,13.75C12.97,13.75 13.75,12.97 13.75,12C13.75,11.03 12.97,10.25 12,10.25M17.85,7L21.75,8.15L20.6,12L17.85,7M3,12L4.15,8.15L8.05,7L3,12M12,15.25C11.66,15.25 11.33,15.19 11,15.15V16L12,16.5L13,16V15.15C12.67,15.19 12.34,15.25 12,15.25M12,8.75C12.34,8.75 12.66,8.81 13,8.85V8L12,7.5L11,8V8.85C11.33,8.81 11.66,8.75 12,8.75Z" /></svg>
         Manage Customization
+    </a>
+    <a class="ha-button ha-button-blue" href="?page=logs">
+        <svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" /></svg>
+        View Login Attempts
     </a>
 </div>
 

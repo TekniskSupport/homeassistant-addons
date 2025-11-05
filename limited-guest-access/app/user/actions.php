@@ -67,10 +67,16 @@ class Actions {
         if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
             $this->passwordProtected = true;
             $linkId = $this->getLink();
+            $clientIp = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 
             // Initialize the authenticated_links array if it doesn't exist
             if (!isset($_SESSION['authenticated_links'])) {
                 $_SESSION['authenticated_links'] = [];
+            }
+
+            // Initialize failed attempts tracking if it doesn't exist
+            if (!isset($_SESSION['failed_attempts'])) {
+                $_SESSION['failed_attempts'] = [];
             }
 
             // Check for an existing session for this specific link
@@ -87,16 +93,36 @@ class Actions {
 
             // Handle a new login attempt
             if (isset($_POST['password'])) {
-                if (password_verify($_POST['password'], $this->data->linkData->password)) {
-                    // Regenerate session ID to prevent fixation
+                $attemptKey = $linkId . '_' . $clientIp;
+                $success = password_verify($_POST['password'], $this->data->linkData->password);
+
+                // Log the attempt
+                $this->logLoginAttempt($linkId, $clientIp, $success);
+
+                if ($success) {
+                    // Successful login
                     session_regenerate_id(true);
-                    
-                    // Store authentication status for this specific link
                     $_SESSION['authenticated_links'][$linkId] = [
                         'login_time' => time()
                     ];
+                    // Reset failed attempts on successful login
+                    unset($_SESSION['failed_attempts'][$attemptKey]);
                     $this->authenticated = true;
                 } else {
+                    // Failed login - implement exponential backoff
+                    if (!isset($_SESSION['failed_attempts'][$attemptKey])) {
+                        $_SESSION['failed_attempts'][$attemptKey] = 0;
+                    }
+                    $_SESSION['failed_attempts'][$attemptKey]++;
+
+                    $failedCount = $_SESSION['failed_attempts'][$attemptKey];
+                    $delay = pow(2, $failedCount); // Exponential backoff: 2^failed_attempts seconds
+
+                    // Cap the delay at 60 seconds to prevent excessive waiting
+                    $delay = min($delay, 60);
+
+                    sleep($delay); // Introduce the delay
+
                     $this->authFailed = true;
                 }
             }
@@ -244,6 +270,31 @@ class Actions {
         header("Location: ". $path);
 
         return $this;
+    }
+
+    protected function logLoginAttempt(string $linkId, string $ipAddress, bool $success): void
+    {
+        $logFile = '/data/login_attempts.json';
+        $attempts = [];
+
+        if (file_exists($logFile)) {
+            $attempts = json_decode(file_get_contents($logFile), true) ?? [];
+        }
+
+        $attempts[] = [
+            'timestamp' => time(),
+            'link_id' => $linkId,
+            'ip_address' => $ipAddress,
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+            'success' => $success
+        ];
+
+        // Keep only the last 1000 attempts to prevent the file from growing too large
+        if (count($attempts) > 1000) {
+            $attempts = array_slice($attempts, -1000);
+        }
+
+        file_put_contents($logFile, json_encode($attempts, JSON_PRETTY_PRINT));
     }
 
     public function getState(string $entityId): bool|string

@@ -1,9 +1,21 @@
+## [0.2.3] - 2025-11-05
+### Security
+- Added exponential backoff for failed login attempts to prevent brute-force attacks
+- Added comprehensive login attempt logging with IP address and user agent tracking
+### Features
+- Added admin interface for viewing login attempts log
+
 ## [0.2.2] - 2025-11-05
 ### Security
 - Fixed critical vulnerability that caused passwords to be deleted upon action execution
 - Implemented per-link, session-based authentication with a one-hour timeout
 ### Features
 - Added UI fields for customizing Header HTML and JavaScript in the admin panel
+
+## [0.2.1] - 2025-11-05
+### Security
+- Implemented session-based authentication to keep users logged in across page loads
+- Added one-hour session timeout for automatic logout
 
 ## [0.2.0] - 2025-10-31
 ### Breaking Change
