@@ -66,16 +66,21 @@ class Actions {
     {
         if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
             $this->passwordProtected = true;
+            $linkId = $this->getLink();
 
-            // Check for an existing session and validate it
-            if (isset($_SESSION['user_authenticated']) && $_SESSION['user_authenticated'] === true) {
+            // Initialize the authenticated_links array if it doesn't exist
+            if (!isset($_SESSION['authenticated_links'])) {
+                $_SESSION['authenticated_links'] = [];
+            }
+
+            // Check for an existing session for this specific link
+            if (isset($_SESSION['authenticated_links'][$linkId])) {
                 // Check for session expiry
-                if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time'] < 3600)) {
+                if (isset($_SESSION['authenticated_links'][$linkId]['login_time']) && (time() - $_SESSION['authenticated_links'][$linkId]['login_time'] < 3600)) {
                     $this->authenticated = true;
                 } else {
-                    // Session has expired
-                    session_unset();
-                    session_destroy();
+                    // Session for this link has expired
+                    unset($_SESSION['authenticated_links'][$linkId]);
                     $this->authFailed = true; // Show login form again
                 }
             }
@@ -83,9 +88,13 @@ class Actions {
             // Handle a new login attempt
             if (isset($_POST['password'])) {
                 if (password_verify($_POST['password'], $this->data->linkData->password)) {
-                    session_regenerate_id(true); // Prevent session fixation
-                    $_SESSION['user_authenticated'] = true;
-                    $_SESSION['login_time'] = time();
+                    // Regenerate session ID to prevent fixation
+                    session_regenerate_id(true);
+                    
+                    // Store authentication status for this specific link
+                    $_SESSION['authenticated_links'][$linkId] = [
+                        'login_time' => time()
+                    ];
                     $this->authenticated = true;
                 } else {
                     $this->authFailed = true;
