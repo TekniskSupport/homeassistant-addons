@@ -20,6 +20,9 @@ class Actions {
     protected function boot(): void
     {
         date_default_timezone_set($_SERVER["TZ"]);
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         
         // Load and validate link data
         $this->loadLinkData();
@@ -63,9 +66,26 @@ class Actions {
     {
         if (isset($this->data->linkData->password) && !empty($this->data->linkData->password)) {
             $this->passwordProtected = true;
-            
+
+            // Check for an existing session and validate it
+            if (isset($_SESSION['user_authenticated']) && $_SESSION['user_authenticated'] === true) {
+                // Check for session expiry
+                if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time'] < 3600)) {
+                    $this->authenticated = true;
+                } else {
+                    // Session has expired
+                    session_unset();
+                    session_destroy();
+                    $this->authFailed = true; // Show login form again
+                }
+            }
+
+            // Handle a new login attempt
             if (isset($_POST['password'])) {
                 if (password_verify($_POST['password'], $this->data->linkData->password)) {
+                    session_regenerate_id(true); // Prevent session fixation
+                    $_SESSION['user_authenticated'] = true;
+                    $_SESSION['login_time'] = time();
                     $this->authenticated = true;
                 } else {
                     $this->authFailed = true;
