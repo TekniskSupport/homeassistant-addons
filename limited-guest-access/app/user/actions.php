@@ -135,7 +135,7 @@ class Actions {
     public function getFilteredActions(): object
     {
         $filteredActions = (object)[];
-        $allActions = $this->getAllActions();
+        $allActions = clone $this->getAllActions(); // Use a clone to prevent modification of the original object
         if (isset($allActions->linkData)) {
             $this->linkData = $allActions->linkData;
             unset($allActions->linkData);
