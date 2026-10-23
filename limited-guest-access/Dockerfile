@@ -11,35 +11,35 @@ ENV PHP_INI_DIR /etc/php/8.4
 RUN apk add --no-cache nginx openrc
 
 RUN apk --update add \
-        php \
-        php-bcmath \
-        php-dom \
-        php-ctype \
-        php-curl \
-        php-fileinfo \
-        php-fpm \
-        php-gd \
-        php-iconv \
-        php-intl \
-        php-json \
-        php-mbstring \
-        php-mysqlnd \
-        php-opcache \
-        php-openssl \
-        php-pdo \
-        php-pdo_mysql \
-        php-pdo_pgsql \
-        php-pdo_sqlite \
-        php-phar \
-        php-posix \
-        php-simplexml \
-        php-session \
-        php-soap \
-        php-tokenizer \
-        php-xml \
-        php-xmlreader \
-        php-xmlwriter \
-        php-zip \
+        php84 \
+        php84-bcmath \
+        php84-dom \
+        php84-ctype \
+        php84-curl \
+        php84-fileinfo \
+        php84-fpm \
+        php84-gd \
+        php84-iconv \
+        php84-intl \
+        php84-json \
+        php84-mbstring \
+        php84-mysqlnd \
+        php84-opcache \
+        php84-openssl \
+        php84-pdo \
+        php84-pdo_mysql \
+        php84-pdo_pgsql \
+        php84-pdo_sqlite \
+        php84-phar \
+        php84-posix \
+        php84-simplexml \
+        php84-session \
+        php84-soap \
+        php84-tokenizer \
+        php84-xml \
+        php84-xmlreader \
+        php84-xmlwriter \
+        php84-zip \
         curl
 
 EXPOSE 8888

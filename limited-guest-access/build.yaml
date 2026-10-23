@@ -1,0 +1,13 @@
+---
+# Base images per architecture. Newer Supervisor versions no longer inject a
+# default BUILD_FROM when this file is missing, which makes the build fail
+# with "base name ($BUILD_FROM) should not be blank".
+#
+# Home Assistant publishes Alpine 3.22+ only as a multi-arch image for
+# amd64/aarch64. The 32-bit architectures remain on the last per-arch image.
+build_from:
+  aarch64: ghcr.io/home-assistant/base:3.23
+  amd64: ghcr.io/home-assistant/base:3.23
+  armhf: ghcr.io/home-assistant/armhf-base:3.21
+  armv7: ghcr.io/home-assistant/armv7-base:3.21
+  i386: ghcr.io/home-assistant/i386-base:3.21

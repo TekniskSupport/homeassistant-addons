@@ -1,3 +1,8 @@
+## [0.1.35] - 2026-10-23
+### bugfix
+- Added build.yaml with explicit base images. Newer Supervisor versions no longer provide a default BUILD_FROM, which broke the add-on build ("base name ($BUILD_FROM) should not be blank")
+- Install explicit php84 packages instead of the Alpine default php version
+
 ## [0.1.34] - 2026-01-31
 - upgradd to php8.4
 
